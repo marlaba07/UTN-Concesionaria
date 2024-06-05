@@ -1,4 +1,4 @@
-package Model;
+package Modelo;
 
 public abstract class Vehiculo {
     private int id;

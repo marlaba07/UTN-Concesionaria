@@ -1,4 +1,4 @@
-package Model;
+package Modelo;
 
 public class Moto extends Vehiculo{
     private Double cilindrada;
