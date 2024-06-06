@@ -6,14 +6,12 @@ public class Venta {
     private int id;
     private Date fecha;
     private Vehiculo vehiculo;
-    private Cliente cliente;
     private Double total;
 
-    public Venta(int id, Date fecha, Vehiculo vehiculo, Cliente cliente, Double total) {
+    public Venta(int id, Date fecha, Vehiculo vehiculo, Double total) {
         this.id       = id;
         this.fecha    = fecha;
         this.vehiculo = vehiculo;
-        this.cliente  = cliente;
         this.total    = total;
     }
 
@@ -39,14 +37,6 @@ public class Venta {
 
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public Double getTotal() {
