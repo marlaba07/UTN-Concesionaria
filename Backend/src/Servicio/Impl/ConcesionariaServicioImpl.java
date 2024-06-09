@@ -72,7 +72,7 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
         return null;
     }
 
-
+    @Override
     public HashMap<Integer, Vehiculo> actualizarVehiculo(int id, Vehiculo v) throws VehiculoException {
         try {
             for (Map.Entry<Integer, Vehiculo> entry : listaVehiculo.entrySet()) {
