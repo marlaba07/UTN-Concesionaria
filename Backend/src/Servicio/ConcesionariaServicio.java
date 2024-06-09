@@ -1,6 +1,13 @@
 package Servicio;
+import Excepcion.VehiculoException;
+import Modelo.Vehiculo;
+import java.util.HashMap;
+import java.util.Map;
 
-// Agregar más clases para los servicios de las demás clases de ser necesario
-public class ConcesionariaServicio {
-    // Ejemplo de servicio
+public interface ConcesionariaServicio {
+    Vehiculo agregarVehiculo(Vehiculo v) throws VehiculoException;
+    Vehiculo obtenerVehiculo(int id) throws VehiculoException;
+    Map<Integer, Vehiculo> obtenerTodosVehiculos() throws VehiculoException;
+    Map<Integer, Vehiculo> actualizarVehiculo(int id, Vehiculo v) throws VehiculoException;
+    void eliminarVehiculo(int id) throws VehiculoException;
 }
