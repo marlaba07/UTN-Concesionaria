@@ -17,7 +17,7 @@ public class Concesionaria {
         this.direccion = direccion;
         this.telefono  = telefono;
         this.vehiculos = new HashMap<>();
-        this.ventas    = new ArrayList<>();
+       // this.ventas    = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -58,6 +58,14 @@ public class Concesionaria {
 
     public void setVentas(List<Venta> ventas) {
         this.ventas = ventas;
+    }
+
+    public void agregarVehiculo(Vehiculo vehiculo) {
+        vehiculos.put(vehiculo.getId(), vehiculo);
+    }
+
+    public Map<Integer, Vehiculo> listarVehiculos() {
+        return vehiculos;
     }
 
 

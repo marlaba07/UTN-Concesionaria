@@ -8,13 +8,16 @@ public abstract class Vehiculo {
     private Integer anio;
     private Double precio;
 
-    public Vehiculo(int id, String marca, String modelo, String color, Integer anio, Double precio) {
+    private Integer stock;
+
+    public Vehiculo(int id, String marca, String modelo, String color, Integer anio, Double precio, Integer stock) {
         this.id     = id;
         this.marca  = marca;
         this.modelo = modelo;
         this.color  = color;
         this.anio   = anio;
         this.precio = precio;
+        this.stock =stock;
     }
 
     public int getId() {
@@ -64,4 +67,11 @@ public abstract class Vehiculo {
     public void setPrecio(Double precio) {
         this.precio = precio;
     }
+
+    public Integer getStock() {return stock;}
+
+    public void setStock(Integer stock) {this.stock = stock;}
+
+    @Override
+    public abstract String toString();
 }
