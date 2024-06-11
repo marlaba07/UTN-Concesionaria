@@ -1,5 +1,18 @@
 package Modelo;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipo"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Automovil.class, name = "automovil"),
+        @JsonSubTypes.Type(value = Moto.class, name      = "moto")
+})
+
 public abstract class Vehiculo {
     private int id;
     private String marca;
@@ -7,14 +20,20 @@ public abstract class Vehiculo {
     private String color;
     private Integer anio;
     private Double precio;
+    private Integer stock;
+    private String tipo;
 
-    public Vehiculo(int id, String marca, String modelo, String color, Integer anio, Double precio) {
+    public Vehiculo(){}
+
+    public Vehiculo(int id, String marca, String modelo, String color, Integer anio, Double precio, Integer stock, String tipo) {
         this.id     = id;
         this.marca  = marca;
         this.modelo = modelo;
         this.color  = color;
         this.anio   = anio;
         this.precio = precio;
+        this.stock  = stock;
+        this.tipo   = tipo;
     }
 
     public int getId() {
@@ -63,5 +82,21 @@ public abstract class Vehiculo {
 
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

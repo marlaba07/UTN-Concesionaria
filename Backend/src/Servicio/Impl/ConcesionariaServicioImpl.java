@@ -3,11 +3,16 @@ package Servicio.Impl;
 import Excepcion.VehiculoException;
 import Modelo.Vehiculo;
 import Servicio.ConcesionariaServicio;
+import Utilidades.JSON;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+
 public class ConcesionariaServicioImpl implements ConcesionariaServicio {
+
+    private static final String JSON_FILE_VEHICULOS = "Backend/Archivos/vehiculos.json";
     private HashMap<Integer, Vehiculo> listaVehiculo;
 
     public ConcesionariaServicioImpl(HashMap<Integer, Vehiculo> listaVehiculo){
@@ -45,9 +50,18 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
 
     @Override
     public HashMap<Integer, Vehiculo> obtenerTodosVehiculos() throws VehiculoException {
-        try{
-            return listaVehiculo;
-        } catch (Exception e){
+        try {
+            // Importar el JSON a una lista de objetos de Vehiculo usando la función importarJson
+            List<Vehiculo> vehiculosList = JSON.importarJson(JSON_FILE_VEHICULOS, Vehiculo.class);
+
+            // Convertir la lista de vehículos en un HashMap
+            HashMap<Integer, Vehiculo> vehiculosMap = new HashMap<>();
+            for (Vehiculo vehiculo : vehiculosList) {
+                vehiculosMap.put(vehiculo.getId(), vehiculo);
+            }
+
+            return vehiculosMap;
+        } catch (Exception e) {
             throw new VehiculoException("Error al intentar obtener todos los vehículos: " + e.getMessage());
         }
     }
