@@ -19,7 +19,7 @@ public class Concesionaria {
         this.direccion = direccion;
         this.telefono  = telefono;
         this.vehiculos = new HashMap<>();
-        this.ventas    = new ArrayList<>();
+       // this.ventas    = new ArrayList<>();
     }
 
     public String getNombre() {

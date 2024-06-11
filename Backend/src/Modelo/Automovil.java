@@ -5,14 +5,10 @@ public class Automovil extends Vehiculo{
     private int cantPuertas;
     private TipoAutomovil tipo;
 
-    public Automovil(){
-
-    }
-
-    public Automovil(int id, String marca, String modelo, String color, Integer anio, Double precio, Integer stock, String tipo, int cantPuertas, TipoAutomovil tipo1) {
-        super(id, marca, modelo, color, anio, precio, stock, tipo);
+    public Automovil(int id, String marca, String modelo, String color, Integer anio, Double precio, int cantPuertas, Integer stock,TipoAutomovil tipo) {
+        super(id, marca, modelo, color, anio, precio, stock);
         this.cantPuertas = cantPuertas;
-        this.tipo = tipo1;
+        this.tipo = tipo;
     }
 
     public int getCantPuertas() {
@@ -22,4 +18,16 @@ public class Automovil extends Vehiculo{
     public void setCantPuertas(int cantPuertas) {
         this.cantPuertas = cantPuertas;
     }
+
+    public TipoAutomovil getTipo() { return tipo;}
+
+    public void setTipo(TipoAutomovil tipo) {this.tipo = tipo;}
+
+    @Override
+    public String toString() {
+        return "Auto: \nMarca: " + getMarca() + " - Modelo: " + getModelo() + " (" + getAnio() + ") - Color: " + getColor() + " - Precio: $" + getPrecio() +
+                " - Stock: " + getStock() + " - " + cantPuertas + " puertas";
+    }
+
+
 }

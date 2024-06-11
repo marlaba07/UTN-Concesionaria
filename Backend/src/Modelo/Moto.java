@@ -19,4 +19,11 @@ public class Moto extends Vehiculo{
     public void setCilindrada(Double cilindrada) {
         this.cilindrada = cilindrada;
     }
+
+    @Override
+    public String toString() {
+        return "Moto: \nMarca: " + getMarca() + " - Modelo: " + getModelo() + " (" + getAnio() + ") - Color: " + getColor() + " - Precio: $" + getPrecio() +
+                " - Stock: " + getStock() + " - Cilindrada: " + cilindrada + " cc";
+
+    }
 }
