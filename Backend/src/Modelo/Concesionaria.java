@@ -12,6 +12,8 @@ public class Concesionaria {
     private Map<Integer, Vehiculo> vehiculos;
     private List<Venta> ventas;
 
+    public Concesionaria(){}
+
     public Concesionaria(String nombre, String direccion, Integer telefono) {
         this.nombre    = nombre;
         this.direccion = direccion;
@@ -60,5 +62,14 @@ public class Concesionaria {
         this.ventas = ventas;
     }
 
-
+    @Override
+    public String toString() {
+        return "Concesionaria{" +
+                "nombre='" + nombre + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", telefono=" + telefono +
+                ", vehiculos=" + vehiculos +
+                ", ventas=" + ventas +
+                '}';
+    }
 }
