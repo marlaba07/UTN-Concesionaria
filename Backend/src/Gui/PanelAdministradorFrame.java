@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 public class PanelAdministradorFrame extends JFrame {
-    private ConcesionariaServicioImpl concesionariaServicio;
+    private final ConcesionariaServicioImpl concesionariaServicio;
 
     public PanelAdministradorFrame() {
         setTitle("Panel de Administrador");
@@ -36,11 +36,11 @@ public class PanelAdministradorFrame extends JFrame {
         btnEliminar.setBounds(370, 30, 150, 30);
         panel.add(btnEliminar);
 
-        JButton btnObtenerTodos = new JButton("Obtener Todos los Vehículos");
+        JButton btnObtenerTodos = new JButton("Obtener todos los vehículos");
         btnObtenerTodos.setBounds(30, 80, 200, 30);
         panel.add(btnObtenerTodos);
 
-        JButton btnObtenerPorId = new JButton("Obtener Vehículo por ID");
+        JButton btnObtenerPorId = new JButton("Buscar vehículo");
         btnObtenerPorId.setBounds(250, 80, 200, 30);
         panel.add(btnObtenerPorId);
 
@@ -104,11 +104,53 @@ public class PanelAdministradorFrame extends JFrame {
             }
         });
 
+        // Lógica para obtener todos los vehículos que coincidan con la marca elegida por el usuario
         btnObtenerPorId.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para obtener un vehículo por ID
+                JDialog dialog = new JDialog(PanelAdministradorFrame.this, "Buscar vehículo por marca", true);
+                dialog.setSize(300, 200);
+                dialog.setLocationRelativeTo(PanelAdministradorFrame.this);
+                dialog.setLayout(null);
 
+                JLabel labelNombre = new JLabel("Marca del vehículo:");
+                labelNombre.setBounds(20, 30, 150, 30);
+                dialog.add(labelNombre);
+
+                JTextField textFieldNombre = new JTextField();
+                textFieldNombre.setBounds(20, 60, 250, 30);
+                dialog.add(textFieldNombre);
+
+                JButton btnBuscar = new JButton("Buscar");
+                btnBuscar.setBounds(100, 100, 100, 30);
+                dialog.add(btnBuscar);
+
+                btnBuscar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // El usuario ingresará la marca
+                        String marca = textFieldNombre.getText();
+
+                        try {
+                            // Obtener todos los vehículos que coincidan con la marca
+                            HashMap<Integer, Vehiculo> vehiculosEncontrados = concesionariaServicio.obtenerVehiculosPorMarca(marca);
+
+                            // Mostrar los vehículos encontrados en la tabla
+                            mostrarVehiculosEnTabla(vehiculosEncontrados, model);
+
+                            // Cerrar el diálogo después de buscar
+                            dialog.dispose();
+
+                        } catch (VehiculoException ex) {
+                            JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        } finally {
+                            // Limpiar el campo de texto después de la búsqueda, ya sea éxito o error
+                            textFieldNombre.setText("");
+                        }
+                    }
+                });
+
+                dialog.setVisible(true);
             }
         });
 

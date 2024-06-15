@@ -5,12 +5,14 @@ import java.util.List;
 import static Utilidades.JSON.guardarJson;
 import static Utilidades.JSON.importarJson;
 
+import Excepcion.VehiculoException;
+
 public class Main {
     //private static final String JSON_FILE_USUARIOS  = "Backend/Archivos/usuarios.json";
     //private static final String JSON_FILE_VEHICULOS = "Backend/Archivos/empleados.json";
     //private static final String JSON_FILE_VEHICULOS = "Backend/Archivos/vehiculos.json";
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception, VehiculoException {
         Menu.menu();
 
         // Importar JSON de personas
@@ -35,69 +37,6 @@ public class Main {
 
         // Guardar la lista actualizada en el archivo JSON
         //guardarJson(JSON_FILE_USUARIOS, personasFromJson);
-
-
     }
 }
 
-/*
-class Persona {
-    private String nombre;
-    private int edad;
-
-    public Persona() {
-        // Constructor por defecto requerido por Jackson
-    }
-
-    public Persona(String nombre, int edad) {
-        this.nombre = nombre;
-        this.edad = edad;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-}
-
-class Empleado {
-    private String nombre;
-    private String cargo;
-
-    public Empleado() {
-        // Constructor por defecto requerido por Jackson
-    }
-
-    public Empleado(String nombre, String cargo) {
-        this.nombre = nombre;
-        this.cargo = cargo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-}
-*/

@@ -5,6 +5,7 @@ import Modelo.Vehiculo;
 import Servicio.ConcesionariaServicio;
 import Utilidades.JSON;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,24 +68,55 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
     }
 
     @Override
-    public Vehiculo obtenerVehiculo(int id) throws VehiculoException {
+    public Vehiculo obtenerVehiculoPorID(int id) throws VehiculoException {
         try{
-            for (Map.Entry<Integer, Vehiculo> entry : listaVehiculo.entrySet()) {
-                int actualId      = entry.getKey();
-                Vehiculo vehiculo = entry.getValue();
+            // Si el HashMap está vacío, cargar todos los vehículos desde el JSON
+            if(listaVehiculo.isEmpty())
+                listaVehiculo = obtenerTodosVehiculos();
 
-                if (actualId == id) {
-                    return vehiculo;
+            // Obtengo el vehiculo por el id
+            Vehiculo vehiculo = listaVehiculo.get(id);
+
+            // Sí se encuentra lo retorno, sino lanzo excepcion
+            if(vehiculo != null) return vehiculo;
+            else throw new VehiculoException("Vehículo no encontrado con el ID: " + id);
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new VehiculoException("Error al intentar obtener el vehículo por ID: " + e.getMessage());
+        }
+    }
+
+    public HashMap<Integer, Vehiculo> obtenerVehiculosPorMarca(String marca) throws VehiculoException {
+        try {
+            // Si el HashMap está vacío, cargar todos los vehículos desde el JSON
+            if (listaVehiculo.isEmpty()) {
+                listaVehiculo = obtenerTodosVehiculos();
+            }
+
+            HashMap<Integer, Vehiculo> vehiculosEncontrados = new HashMap<>();
+
+            // Iterar sobre el HashMap para encontrar vehículos por marca
+            for (Map.Entry<Integer, Vehiculo> entry : listaVehiculo.entrySet()) {
+                Vehiculo vehiculo = entry.getValue();
+                if (vehiculo.getMarca().equalsIgnoreCase(marca)) {
+                    vehiculosEncontrados.put(entry.getKey(), vehiculo);
                 }
             }
 
-            throw new VehiculoException("Vehículo no encontrado con el ID: " + id);
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+            // Si no se encontró ningún vehículo con la marca especificado, lanzar excepción
+            if (vehiculosEncontrados.isEmpty()) {
+                throw new VehiculoException("No se encontraron vehículos con la marca: " + marca);
+            }
 
-        return null;
+            return vehiculosEncontrados;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new VehiculoException("Error al intentar obtener los vehículos con la marca: " + e.getMessage());
+        }
     }
+
 
     @Override
     public HashMap<Integer, Vehiculo> actualizarVehiculo(int id, Vehiculo v) throws VehiculoException {

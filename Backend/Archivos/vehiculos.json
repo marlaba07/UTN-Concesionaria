@@ -98,5 +98,35 @@
     "precio": 28000.00,
     "stock": 5,
     "tipo": "automovil"
+  },
+  {
+    "id": 11,
+    "marca": "Toyota",
+    "modelo": "Rav4",
+    "color": "Gris",
+    "anio": 2022,
+    "precio": 30000.00,
+    "stock": 6,
+    "tipo": "automovil"
+  },
+  {
+    "id": 12,
+    "marca": "Honda",
+    "modelo": "Accord",
+    "color": "Rojo",
+    "anio": 2020,
+    "precio": 27000.00,
+    "stock": 4,
+    "tipo": "automovil"
+  },
+  {
+    "id": 13,
+    "marca": "Ford",
+    "modelo": "Mustang",
+    "color": "Azul",
+    "anio": 2021,
+    "precio": 45000.00,
+    "stock": 3,
+    "tipo": "automovil"
   }
 ]
