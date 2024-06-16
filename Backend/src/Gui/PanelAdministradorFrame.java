@@ -83,10 +83,60 @@ public class PanelAdministradorFrame extends JFrame {
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para eliminar un vehículo
+                // Crear un nuevo diálogo para ingresar el ID del vehículo a eliminar
+                JDialog dialog = new JDialog(PanelAdministradorFrame.this, "Eliminar Vehículo", true);
+                dialog.setSize(300, 200);
+                dialog.setLocationRelativeTo(PanelAdministradorFrame.this);
+                dialog.setLayout(null);
 
+                JLabel labelId = new JLabel("ID del Vehículo:");
+                labelId.setBounds(20, 30, 150, 30);
+                dialog.add(labelId);
+
+                JTextField textFieldId = new JTextField();
+                textFieldId.setBounds(20, 60, 250, 30);
+                dialog.add(textFieldId);
+
+                JButton btnEliminarConfirmar = new JButton("Eliminar");
+                btnEliminarConfirmar.setBounds(100, 100, 100, 30);
+                dialog.add(btnEliminarConfirmar);
+
+                btnEliminarConfirmar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String idText = textFieldId.getText();
+                        try {
+                            int id = Integer.parseInt(idText);
+
+                            try {
+                                // Intentar eliminar el vehículo
+                                concesionariaServicio.eliminarVehiculo(id);
+
+                                // Mostrar mensaje de éxito
+                                JOptionPane.showMessageDialog(dialog, "Vehículo eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                                // Cerrar el diálogo después de eliminar
+                                dialog.dispose();
+
+                                // Actualizar la tabla de vehículos
+                                mostrarVehiculosEnTabla(concesionariaServicio.obtenerTodosVehiculos(), model);
+
+                            } catch (VehiculoException ex) {
+                                // Mostrar mensaje de error si el ID no existe
+                                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+
+                        } catch (NumberFormatException ex) {
+                            // Mostrar mensaje de error si el ID ingresado no es un número válido
+                            JOptionPane.showMessageDialog(dialog, "Por favor ingrese un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                });
+
+                dialog.setVisible(true);
             }
         });
+
 
         // Lógica para obtener todos los vehículos
         btnObtenerTodos.addActionListener(new ActionListener() {

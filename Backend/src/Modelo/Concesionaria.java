@@ -10,7 +10,6 @@ public class Concesionaria {
     private String direccion;
     private Integer telefono;
     private Map<Integer, Vehiculo> vehiculos;
-    private List<Venta> ventas;
 
     public Concesionaria(){}
 
@@ -19,7 +18,6 @@ public class Concesionaria {
         this.direccion = direccion;
         this.telefono  = telefono;
         this.vehiculos = new HashMap<>();
-        this.ventas    = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -54,14 +52,6 @@ public class Concesionaria {
         this.vehiculos = vehiculos;
     }
 
-    public List<Venta> getVentas() {
-        return ventas;
-    }
-
-    public void setVentas(List<Venta> ventas) {
-        this.ventas = ventas;
-    }
-
     @Override
     public String toString() {
         return "Concesionaria{" +
@@ -69,7 +59,6 @@ public class Concesionaria {
                 ", direccion='" + direccion + '\'' +
                 ", telefono=" + telefono +
                 ", vehiculos=" + vehiculos +
-                ", ventas=" + ventas +
                 '}';
     }
 }

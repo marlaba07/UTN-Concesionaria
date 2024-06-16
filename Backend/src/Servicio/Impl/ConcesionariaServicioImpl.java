@@ -44,9 +44,8 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            throw new VehiculoException("Error al intentar agregar un vehículo: " + e.getMessage());
         }
-
-        return null;
     }
 
     @Override
@@ -63,6 +62,7 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
 
             return vehiculosMap;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new VehiculoException("Error al intentar obtener todos los vehículos: " + e.getMessage());
         }
     }
@@ -139,32 +139,28 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
             throw new VehiculoException("El vehículo con el ID " + id + " no existe en la lista.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            throw new VehiculoException("Error al intentar actualizar el vehiculo: " + e.getMessage());
         }
-
-        return null;
     }
 
     @Override
     public void eliminarVehiculo(int id) throws VehiculoException {
         try {
-            boolean vehiculoEncontrado = false;
-            for (Map.Entry<Integer, Vehiculo> entry : listaVehiculo.entrySet()) {
-                int vehiculoId = entry.getKey();
-                Vehiculo vehiculo = entry.getValue();
+            // Si el HashMap está vacío, cargar todos los vehículos desde el JSON
+            if (listaVehiculo.isEmpty())
+                listaVehiculo = obtenerTodosVehiculos();
 
-                if (vehiculoId == id) {
-                    listaVehiculo.remove(vehiculoId);
-                    vehiculoEncontrado = true;
-                    break;
-                }
-            }
+            Vehiculo vehiculoEliminado = listaVehiculo.remove(id);
 
-            if (!vehiculoEncontrado) {
+            if (vehiculoEliminado == null)
                 throw new VehiculoException("El vehículo con el ID " + id + " no existe en la lista.");
-            }
+            else
+                // Guardar la lista actualizada en el archivo JSON
+                JSON.guardarJson(JSON_FILE_VEHICULOS, new ArrayList<>(listaVehiculo.values()));
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            throw new VehiculoException("Error al intentar eliminar el vehículo: " + e.getMessage());
         }
     }
 }
