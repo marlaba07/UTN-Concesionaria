@@ -5,10 +5,7 @@ import Modelo.Vehiculo;
 import Servicio.ConcesionariaServicio;
 import Utilidades.JSON;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ConcesionariaServicioImpl implements ConcesionariaServicio {
@@ -32,21 +29,36 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
         this.listaVehiculo = listaVehiculo;
     }
 
-    @Override
     public Vehiculo agregarVehiculo(Vehiculo v) throws VehiculoException {
         try {
-            // Ejemplo de nuestra regla de negocio, solo queremos vehiculos "modernos"
+            // Ejemplo de nuestra regla de negocio, solo queremos vehículos "modernos"
             if (v.getAnio() >= 2000) {
-                listaVehiculo.put(v.getId(), v);
+                // Obtener la lista actual de vehículos desde el JSON
+                Map<Integer, Vehiculo> listaVehiculo = obtenerTodosVehiculos();
+
+                // Obtener el último ID registrado
+                int ultimoId = listaVehiculo.isEmpty() ? 0 : Collections.max(listaVehiculo.keySet());
+
+                // Generar un nuevo ID autoincremental
+                int nuevoId = ultimoId + 1;
+                v.setId(nuevoId);
+
+                // Agregar el vehículo a la lista
+                listaVehiculo.put(nuevoId, v);
+
+                // Guardar la lista actualizada en el archivo JSON
+                JSON.guardarJson(JSON_FILE_VEHICULOS, new ArrayList<>(listaVehiculo.values()));
+
                 return v;
             } else {
-                throw new VehiculoException("Error: el vehiculo es antiguo, la concesionaria solo puede tener modelos mayores al año 2.000");
+                throw new VehiculoException("Error: el vehículo es antiguo, la concesionaria solo puede tener modelos mayores al año 2000");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new VehiculoException("Error al intentar agregar un vehículo: " + e.getMessage());
         }
     }
+
 
     @Override
     public HashMap<Integer, Vehiculo> obtenerTodosVehiculos() throws VehiculoException {

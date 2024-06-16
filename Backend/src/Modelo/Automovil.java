@@ -9,8 +9,8 @@ public class Automovil extends Vehiculo {
         setTipo("automovil");
     }
 
-    public Automovil(int id, String marca, String modelo, String color, Integer anio, Double precio, Integer stock, int cantPuertas, TipoAutomovil tipoAutomovil) {
-        super(id, marca, modelo, color, anio, precio, stock, "automovil");
+    public Automovil(int id, String marca, String modelo, String color, Integer anio, Double precio, Integer stock, String tipo, int cantPuertas, TipoAutomovil tipoAutomovil) {
+        super(id, marca, modelo, color, anio, precio, stock, tipo);
         this.cantPuertas = cantPuertas;
         this.tipoAutomovil = tipoAutomovil;
     }
