@@ -24,7 +24,7 @@ Este proyecto es un sistema CRUD (Create, Read, Update, Delete ) para gestionar 
 
 - [Java JDK 11+](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 - [Maven Repository: Jackson](https://mvnrepository.com/search?q=jackson)
-- 
+  
 ## Instalación
 
 1. **Clona el repositorio:**
@@ -49,9 +49,13 @@ Este proyecto es un sistema CRUD (Create, Read, Update, Delete ) para gestionar 
      - Archivos
      - Serialización y JSON
      - Equals, HashCode y Comparable
+     - Swing [Interfaz gráfica]
        
    - [Control de versiones]:
      - Git / Github
 
    - [Gestión de proyecto]:
      - Trello
+
+   - [Diagrama de clase UML]:
+      - Lucidchart
