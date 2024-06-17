@@ -8,7 +8,6 @@ import Utilidades.JSON;
 import java.util.*;
 
 public class ConcesionariaServicioImpl implements ConcesionariaServicio {
-
     private static final String JSON_FILE_VEHICULOS = "Backend/Archivos/vehiculos.json";
     private HashMap<Integer, Vehiculo> listaVehiculo;
 
@@ -28,6 +27,7 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
         this.listaVehiculo = listaVehiculo;
     }
 
+    @Override
     public Vehiculo agregarVehiculo(Vehiculo v) throws VehiculoException {
         try {
             // Ejemplo de nuestra regla de negocio, solo queremos vehículos "modernos"
@@ -97,6 +97,7 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
         }
     }
 
+    @Override
     public HashMap<Integer, Vehiculo> obtenerVehiculosPorMarca(String marca) throws VehiculoException {
         try {
             // Si el HashMap está vacío, cargar todos los vehículos desde el JSON
