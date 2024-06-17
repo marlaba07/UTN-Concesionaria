@@ -19,7 +19,7 @@
     "anio": 2018,
     "precio": 40000.0,
     "stock": 3,
-    "tipo": "automovil",
+    "tipo": "automovil", 
     "cantPuertas": 4,
     "tipoAutomovil": null
   },
