@@ -1,4 +1,4 @@
-package Model.Enums;
+package Modelo.Enums;
 
 public enum TipoAutomovil {
     UTILITARIO,

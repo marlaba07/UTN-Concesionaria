@@ -70,59 +70,79 @@ public class PanelAdministradorFrame extends JFrame {
         // Inicializar el servicio de la concesionaria
         concesionariaServicio = new ConcesionariaServicioImpl();
 
-
+        // Lógica para agregar un vehículo
         btnAgregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Crear un nuevo diálogo para ingresar los datos del vehículo
                 JDialog dialog = new JDialog(PanelAdministradorFrame.this, "Agregar Vehículo", true);
-                dialog.setSize(600, 400); // Ajustar tamaño según necesidad
+                dialog.setSize(400, 350); // Ajustar tamaño para hacerlo más pequeño
                 dialog.setLocationRelativeTo(PanelAdministradorFrame.this);
-                dialog.setLayout(new GridLayout(9, 2, 10, 10)); // Ajustar filas, columnas, espacios horizontal y vertical
+                dialog.setLayout(new BorderLayout(10, 10)); // Espacios entre componentes y bordes
+
+                JPanel panelCampos = new JPanel();
+                panelCampos.setLayout(new GridLayout(8, 2, 5, 5)); // Ajustar filas, columnas, espacios horizontal y vertical
 
                 JLabel labelMarca = new JLabel("Marca:");
                 JTextField textFieldMarca = new JTextField();
-                dialog.add(labelMarca);
-                dialog.add(textFieldMarca);
+                panelCampos.add(labelMarca);
+                panelCampos.add(textFieldMarca);
 
                 JLabel labelModelo = new JLabel("Modelo:");
                 JTextField textFieldModelo = new JTextField();
-                dialog.add(labelModelo);
-                dialog.add(textFieldModelo);
+                panelCampos.add(labelModelo);
+                panelCampos.add(textFieldModelo);
 
                 JLabel labelColor = new JLabel("Color:");
                 JTextField textFieldColor = new JTextField();
-                dialog.add(labelColor);
-                dialog.add(textFieldColor);
+                panelCampos.add(labelColor);
+                panelCampos.add(textFieldColor);
 
                 JLabel labelAnio = new JLabel("Año:");
                 JTextField textFieldAnio = new JTextField();
-                dialog.add(labelAnio);
-                dialog.add(textFieldAnio);
+                panelCampos.add(labelAnio);
+                panelCampos.add(textFieldAnio);
 
                 JLabel labelPrecio = new JLabel("Precio:");
                 JTextField textFieldPrecio = new JTextField();
-                dialog.add(labelPrecio);
-                dialog.add(textFieldPrecio);
+                panelCampos.add(labelPrecio);
+                panelCampos.add(textFieldPrecio);
 
                 JLabel labelStock = new JLabel("Stock:");
                 JTextField textFieldStock = new JTextField();
-                dialog.add(labelStock);
-                dialog.add(textFieldStock);
+                panelCampos.add(labelStock);
+                panelCampos.add(textFieldStock);
 
                 JLabel labelTipo = new JLabel("Tipo:");
-                JComboBox<String> comboBoxTipo = new JComboBox<>(new String[]{"automovil", "moto"});
-                dialog.add(labelTipo);
-                dialog.add(comboBoxTipo);
+                JComboBox<String> comboBoxTipo = new JComboBox<>(new String[]{"", "automovil", "moto"});
+                panelCampos.add(labelTipo);
+                panelCampos.add(comboBoxTipo);
 
+                // Hacer los campos de texto más pequeños
+                Dimension fieldDimension = new Dimension(150, 24);
+                textFieldMarca.setPreferredSize(fieldDimension);
+                textFieldModelo.setPreferredSize(fieldDimension);
+                textFieldColor.setPreferredSize(fieldDimension);
+                textFieldAnio.setPreferredSize(fieldDimension);
+                textFieldPrecio.setPreferredSize(fieldDimension);
+                textFieldStock.setPreferredSize(fieldDimension);
+
+                // Panel para el campo adicional
                 JLabel labelCantPuertasCilindrada = new JLabel();
-                JTextField textFieldCantPuertasCilindrada = new JTextField(); // Declaración fuera del scope del listener
+                JTextField textFieldCantPuertasCilindrada = new JTextField();
+                textFieldCantPuertasCilindrada.setPreferredSize(fieldDimension);
 
-                // Agregar por defecto los componentes de texto y tipo
-                dialog.add(labelCantPuertasCilindrada);
-                dialog.add(textFieldCantPuertasCilindrada);
-                textFieldCantPuertasCilindrada.setVisible(false);
+                // Mantener el campo adicional oculto inicialmente
                 labelCantPuertasCilindrada.setVisible(false);
+                textFieldCantPuertasCilindrada.setVisible(false);
+                panelCampos.add(labelCantPuertasCilindrada);
+                panelCampos.add(textFieldCantPuertasCilindrada);
+
+                // Agregar el panel de campos al diálogo con márgenes
+                JPanel panelMargen = new JPanel(new BorderLayout());
+                panelMargen.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                panelMargen.add(panelCampos, BorderLayout.CENTER);
+                dialog.add(panelMargen, BorderLayout.CENTER);
 
                 // Listener para el combo box de tipo
                 comboBoxTipo.addActionListener(new ActionListener() {
@@ -130,7 +150,6 @@ public class PanelAdministradorFrame extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         String seleccion = (String) comboBoxTipo.getSelectedItem();
 
-                        // Sí la opción seleccionada del select es automovil
                         if ("automovil".equals(seleccion)) {
                             labelCantPuertasCilindrada.setText("Cantidad de Puertas:");
                             textFieldCantPuertasCilindrada.setVisible(true);
@@ -140,18 +159,23 @@ public class PanelAdministradorFrame extends JFrame {
                             textFieldCantPuertasCilindrada.setVisible(true);
                             labelCantPuertasCilindrada.setVisible(true);
                         } else {
-                            textFieldCantPuertasCilindrada.setVisible(false);
                             labelCantPuertasCilindrada.setVisible(false);
+                            textFieldCantPuertasCilindrada.setVisible(false);
                         }
 
-                        // Actualizar el diálogo para reflejar los cambios
                         dialog.revalidate();
                         dialog.repaint();
                     }
                 });
 
+                // Botón de confirmación
                 JButton btnAgregarConfirmar = new JButton("Agregar");
-                dialog.add(btnAgregarConfirmar);
+                JPanel panelBoton = new JPanel();
+                panelBoton.setLayout(new FlowLayout(FlowLayout.RIGHT)); // Alinear botón a la derecha
+                panelBoton.add(btnAgregarConfirmar);
+
+                // Agregar el panel del botón al diálogo
+                dialog.add(panelBoton, BorderLayout.SOUTH);
 
                 btnAgregarConfirmar.addActionListener(new ActionListener() {
                     @Override
@@ -166,18 +190,23 @@ public class PanelAdministradorFrame extends JFrame {
                         String cantPuertasCilindradaStr = textFieldCantPuertasCilindrada.getText();
 
                         // Validar que todos los campos estén completos
-                        if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || anioStr.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || tipo.isEmpty() || cantPuertasCilindradaStr.isEmpty()) {
+                        if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || anioStr.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || Objects.requireNonNull(tipo).isEmpty() || (labelCantPuertasCilindrada.isVisible() && cantPuertasCilindradaStr.isEmpty())) {
                             JOptionPane.showMessageDialog(dialog, "Error, complete todos los campos antes de agregar el vehículo.", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
+                        // Validar que los campos de texto no contengan números
+                        if (!marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") || !color.matches("[a-zA-Z\\s]+")) {
+                            JOptionPane.showMessageDialog(dialog, "Error, ingrese el formato correcto para cada caso. (Texto)", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
 
                         try {
                             // Validar que los campos numéricos sean válidos
-                            int anio      = Integer.parseInt(anioStr);
+                            int anio = Integer.parseInt(anioStr);
                             double precio = Double.parseDouble(precioStr);
-                            int stock     = Integer.parseInt(stockStr);
+                            int stock = Integer.parseInt(stockStr);
 
-                            // Validar tipo seleccionado y campo específico
                             if ("automovil".equals(tipo)) {
                                 int cantPuertas = Integer.parseInt(cantPuertasCilindradaStr);
                                 concesionariaServicio.agregarVehiculo(new Automovil(0, marca, modelo, color, anio, precio, stock, tipo, cantPuertas, null));
@@ -197,7 +226,7 @@ public class PanelAdministradorFrame extends JFrame {
 
                         } catch (NumberFormatException ex) {
                             // Mostrar mensaje de error si hay un problema con los valores numéricos
-                            JOptionPane.showMessageDialog(dialog, "Error, complete los campos numéricos con valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(dialog, "Error, ingrese el formato correcto para cada caso. (Numerico)", "Error", JOptionPane.ERROR_MESSAGE);
                         } catch (VehiculoException ex) {
                             // Mostrar mensaje de error si ocurre una excepción específica de vehículo
                             JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -212,17 +241,165 @@ public class PanelAdministradorFrame extends JFrame {
             }
         });
 
-
-
-
-
-
         // Lógica para modificar un vehículo
         btnModificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Crear un nuevo diálogo para la modificación de vehículo
+                JDialog dialog = new JDialog(PanelAdministradorFrame.this, "Modificar Vehículo", true);
+                dialog.setSize(400, 350); // Tamaño ajustado para el modal (mismo tamaño que el de agregar)
+                dialog.setLocationRelativeTo(null); // Centrar el modal en la pantalla
+                dialog.setLayout(new BorderLayout());
 
+                // Panel principal del diálogo
+                JPanel panelPrincipal = new JPanel(new BorderLayout());
+                panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+                // Panel para los campos de entrada
+                JPanel panelCampos = new JPanel();
+                panelCampos.setLayout(new GridLayout(8, 2, 5, 5)); // Ajustar filas, columnas, espacios horizontal y vertical
+
+                JLabel labelID = new JLabel("ID del vehículo:");
+                JTextField textFieldID = new JTextField();
+                JButton btnCorroborar = new JButton("Corroborar");
+
+                // Estilo de los campos y botones
+                textFieldID.setPreferredSize(new Dimension(150, 24));
+                btnCorroborar.setPreferredSize(new Dimension(120, 24));
+
+                panelCampos.add(labelID);
+                panelCampos.add(textFieldID);
+                panelCampos.add(new JLabel()); // Espacio en blanco
+                panelCampos.add(btnCorroborar);
+
+                JLabel labelMarca = new JLabel("Marca:");
+                JTextField textFieldMarca = new JTextField();
+                textFieldMarca.setEnabled(false); // Inicialmente deshabilitado
+                panelCampos.add(labelMarca);
+                panelCampos.add(textFieldMarca);
+
+                JLabel labelModelo = new JLabel("Modelo:");
+                JTextField textFieldModelo = new JTextField();
+                textFieldModelo.setEnabled(false); // Inicialmente deshabilitado
+                panelCampos.add(labelModelo);
+                panelCampos.add(textFieldModelo);
+
+                JLabel labelColor = new JLabel("Color:");
+                JTextField textFieldColor = new JTextField();
+                textFieldColor.setEnabled(false); // Inicialmente deshabilitado
+                panelCampos.add(labelColor);
+                panelCampos.add(textFieldColor);
+
+                JLabel labelAnio = new JLabel("Año:");
+                JTextField textFieldAnio = new JTextField();
+                textFieldAnio.setEnabled(false); // Inicialmente deshabilitado
+                panelCampos.add(labelAnio);
+                panelCampos.add(textFieldAnio);
+
+                JLabel labelPrecio = new JLabel("Precio:");
+                JTextField textFieldPrecio = new JTextField();
+                textFieldPrecio.setEnabled(false); // Inicialmente deshabilitado
+                panelCampos.add(labelPrecio);
+                panelCampos.add(textFieldPrecio);
+
+                JLabel labelStock = new JLabel("Stock:");
+                JTextField textFieldStock = new JTextField();
+                textFieldStock.setEnabled(false); // Inicialmente deshabilitado
+                panelCampos.add(labelStock);
+                panelCampos.add(textFieldStock);
+
+                // Botón para confirmar la modificación
+                JButton btnConfirmar = new JButton("Modificar");
+                btnConfirmar.setPreferredSize(new Dimension(120, 24));
+                btnConfirmar.setEnabled(false); // Inicialmente deshabilitado
+
+                // Acción del botón "Corroborar"
+                btnCorroborar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            int id = Integer.parseInt(textFieldID.getText());
+
+                            // Obtener el vehículo por ID
+                            Vehiculo vehiculo = concesionariaServicio.obtenerVehiculoPorID(id);
+
+                            // Mostrar los campos para modificación con los datos actuales del vehículo
+                            textFieldMarca.setText(vehiculo.getMarca());
+                            textFieldModelo.setText(vehiculo.getModelo());
+                            textFieldColor.setText(vehiculo.getColor());
+                            textFieldAnio.setText(String.valueOf(vehiculo.getAnio()));
+                            textFieldPrecio.setText(String.valueOf(vehiculo.getPrecio()));
+                            textFieldStock.setText(String.valueOf(vehiculo.getStock()));
+
+                            // Habilitar los campos para modificación
+                            textFieldMarca.setEnabled(true);
+                            textFieldModelo.setEnabled(true);
+                            textFieldColor.setEnabled(true);
+                            textFieldAnio.setEnabled(true);
+                            textFieldPrecio.setEnabled(true);
+                            textFieldStock.setEnabled(true);
+                            btnConfirmar.setEnabled(true);
+
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(dialog, "Ingrese un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (VehiculoException ex) {
+                            JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                });
+
+                // Acción del botón "Confirmar"
+                btnConfirmar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            int id        = Integer.parseInt(textFieldID.getText());
+                            String marca  = textFieldMarca.getText();
+                            String modelo = textFieldModelo.getText();
+                            String color  = textFieldColor.getText();
+                            int anio      = Integer.parseInt(textFieldAnio.getText());
+                            double precio = Double.parseDouble(textFieldPrecio.getText());
+                            int stock     = Integer.parseInt(textFieldStock.getText());
+
+                            // Actualizar el vehículo
+                            Vehiculo vehiculo = concesionariaServicio.obtenerVehiculoPorID(id);
+                            vehiculo.setMarca(marca);
+                            vehiculo.setModelo(modelo);
+                            vehiculo.setColor(color);
+                            vehiculo.setAnio(anio);
+                            vehiculo.setPrecio(precio);
+                            vehiculo.setStock(stock);
+
+                            // Guardar cambios en el JSON
+                            concesionariaServicio.actualizarVehiculo(id, vehiculo);
+
+                            // Mostrar mensaje de éxito
+                            JOptionPane.showMessageDialog(dialog, "Vehículo actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                            // Cerrar el diálogo después de modificar
+                            dialog.dispose();
+
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(dialog, "Ingrese valores numéricos válidos para año, precio y stock.", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (VehiculoException ex) {
+                            JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                });
+
+                // Panel para el botón de confirmar
+                JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                panelBoton.add(btnConfirmar);
+
+                // Agregar componentes al panel principal
+                panelPrincipal.add(panelCampos, BorderLayout.CENTER);
+                panelPrincipal.add(panelBoton, BorderLayout.SOUTH);
+
+                // Agregar panel principal al diálogo
+                dialog.add(panelPrincipal);
+
+                // Mostrar el diálogo de modificación
+                dialog.setVisible(true);
             }
         });
 

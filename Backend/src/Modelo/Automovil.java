@@ -5,6 +5,7 @@ public class Automovil extends Vehiculo {
     private int cantPuertas;
     private TipoAutomovil tipoAutomovil;
 
+    // Constructor por defecto: Jackson me pide un constructor vacio, pero necesito setearle un tipo por defecto tambien
     public Automovil() {
         setTipo("automovil");
     }
@@ -29,5 +30,13 @@ public class Automovil extends Vehiculo {
 
     public void setTipoAutomovil(TipoAutomovil tipoAutomovil) {
         this.tipoAutomovil = tipoAutomovil;
+    }
+
+    @Override
+    public String toString() {
+        return "Automovil{" +
+                "cantPuertas=" + cantPuertas +
+                ", tipoAutomovil=" + tipoAutomovil +
+                '}';
     }
 }

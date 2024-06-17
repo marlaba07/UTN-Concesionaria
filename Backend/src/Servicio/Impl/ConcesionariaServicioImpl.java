@@ -7,7 +7,6 @@ import Utilidades.JSON;
 
 import java.util.*;
 
-
 public class ConcesionariaServicioImpl implements ConcesionariaServicio {
 
     private static final String JSON_FILE_VEHICULOS = "Backend/Archivos/vehiculos.json";
@@ -59,7 +58,6 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
         }
     }
 
-
     @Override
     public HashMap<Integer, Vehiculo> obtenerTodosVehiculos() throws VehiculoException {
         try {
@@ -102,24 +100,21 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
     public HashMap<Integer, Vehiculo> obtenerVehiculosPorMarca(String marca) throws VehiculoException {
         try {
             // Si el HashMap está vacío, cargar todos los vehículos desde el JSON
-            if (listaVehiculo.isEmpty()) {
+            if (listaVehiculo.isEmpty())
                 listaVehiculo = obtenerTodosVehiculos();
-            }
 
             HashMap<Integer, Vehiculo> vehiculosEncontrados = new HashMap<>();
 
             // Iterar sobre el HashMap para encontrar vehículos por marca
             for (Map.Entry<Integer, Vehiculo> entry : listaVehiculo.entrySet()) {
                 Vehiculo vehiculo = entry.getValue();
-                if (vehiculo.getMarca().equalsIgnoreCase(marca)) {
+                if (vehiculo.getMarca().equalsIgnoreCase(marca))
                     vehiculosEncontrados.put(entry.getKey(), vehiculo);
-                }
             }
 
             // Si no se encontró ningún vehículo con la marca especificado, lanzar excepción
-            if (vehiculosEncontrados.isEmpty()) {
+            if (vehiculosEncontrados.isEmpty())
                 throw new VehiculoException("No se encontraron vehículos con la marca: " + marca);
-            }
 
             return vehiculosEncontrados;
 
@@ -129,12 +124,18 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
         }
     }
 
-
     @Override
     public HashMap<Integer, Vehiculo> actualizarVehiculo(int id, Vehiculo v) throws VehiculoException {
         try {
+            // Si el HashMap está vacío, cargar todos los vehículos desde el JSON
+            if (listaVehiculo.isEmpty())
+                listaVehiculo = obtenerTodosVehiculos();
+
+            boolean encontrado = false;
+
+            // Iterar sobre la lista de vehículos para actualizar el vehículo con el ID dado
             for (Map.Entry<Integer, Vehiculo> entry : listaVehiculo.entrySet()) {
-                int vehiculoId = entry.getKey();
+                int vehiculoId    = entry.getKey();
                 Vehiculo vehiculo = entry.getValue();
 
                 if (vehiculoId == id) {
@@ -143,12 +144,19 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
                     vehiculo.setColor(v.getColor());
                     vehiculo.setAnio(v.getAnio());
                     vehiculo.setPrecio(v.getPrecio());
-
-                    return listaVehiculo;
+                    vehiculo.setStock(v.getStock());
+                    encontrado = true;
+                    break;
                 }
             }
 
-            throw new VehiculoException("El vehículo con el ID " + id + " no existe en la lista.");
+            if (!encontrado)
+                throw new VehiculoException("El vehículo con el ID " + id + " no existe en la lista.");
+
+            // Guardar la lista actualizada en el archivo JSON
+            JSON.guardarJson(JSON_FILE_VEHICULOS, new ArrayList<>(listaVehiculo.values()));
+
+            return listaVehiculo;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new VehiculoException("Error al intentar actualizar el vehiculo: " + e.getMessage());
