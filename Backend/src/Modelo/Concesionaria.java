@@ -11,9 +11,6 @@ public class Concesionaria {
     public Concesionaria(){}
 
     public Concesionaria(String nombre, String direccion, Integer telefono) {
-        this.nombre    = nombre;
-        this.direccion = direccion;
-        this.telefono  = telefono;
         this.vehiculos = new HashMap<>();
     }
 

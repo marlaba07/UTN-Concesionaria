@@ -29,6 +29,7 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
         this.listaVehiculo = listaVehiculo;
     }
 
+    @Override
     public Vehiculo agregarVehiculo(Vehiculo v) throws VehiculoException {
         try {
             // Obtener el año actual
@@ -103,6 +104,7 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
         }
     }
 
+    @Override
     public HashMap<Integer, Vehiculo> obtenerVehiculosPorMarca(String marca) throws VehiculoException {
         try {
             // Si el HashMap está vacío, cargar todos los vehículos desde el JSON
