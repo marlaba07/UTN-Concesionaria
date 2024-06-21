@@ -195,7 +195,7 @@ public class PanelAdministradorFrame extends JFrame {
                         }
 
                         // Validar que los campos de texto no contengan números
-                        if (!marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") || !color.matches("[a-zA-Z\\s]+")) {
+                        if (/* !marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") || */ !color.matches("[a-zA-Z\\s]+")) {
                             JOptionPane.showMessageDialog(dialog, "Error, ingrese el formato correcto para cada caso. (Texto)", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
@@ -387,7 +387,7 @@ public class PanelAdministradorFrame extends JFrame {
                             }
 
                             // Validar que los campos de texto no contengan números
-                            if (!marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") || !color.matches("[a-zA-Z\\s]+")) {
+                            if (/*!marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") ||*/ !color.matches("[a-zA-Z\\s]+")) {
                                 JOptionPane.showMessageDialog(dialog, "Error, ingrese el formato correcto para cada caso. (Texto)", "Error", JOptionPane.ERROR_MESSAGE);
                                 return;
                             }
