@@ -473,22 +473,33 @@ public class PanelAdministradorFrame extends JFrame {
                         try {
                             int id = Integer.parseInt(idText);
 
-                            try {
-                                // Intentar eliminar el vehículo
-                                concesionariaServicio.eliminarVehiculo(id);
+                            // Modal de confirmación de eliminación
+                            int confirm = JOptionPane.showConfirmDialog(dialog,
+                                    "¿Seguro que desea eliminar este vehículo?",
+                                    "Confirmación de Eliminación",
+                                    JOptionPane.YES_NO_OPTION);
 
-                                // Mostrar mensaje de éxito
-                                JOptionPane.showMessageDialog(dialog, "Vehículo eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                            if (confirm == JOptionPane.YES_OPTION) {
+                                try {
+                                    // Intentar eliminar el vehículo
+                                    concesionariaServicio.eliminarVehiculo(id);
 
-                                // Cerrar el diálogo después de eliminar
+                                    // Mostrar mensaje de éxito
+                                    JOptionPane.showMessageDialog(dialog, "Vehículo eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                                    // Cerrar el diálogo después de eliminar
+                                    dialog.dispose();
+
+                                    // Actualizar la tabla de vehículos
+                                    mostrarVehiculosEnTabla(concesionariaServicio.obtenerTodosVehiculos(), model);
+
+                                } catch (VehiculoException ex) {
+                                    // Mostrar mensaje de error si el ID no existe
+                                    JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            } else {
+                                // Si se elige "No", simplemente cerrar el modal
                                 dialog.dispose();
-
-                                // Actualizar la tabla de vehículos
-                                mostrarVehiculosEnTabla(concesionariaServicio.obtenerTodosVehiculos(), model);
-
-                            } catch (VehiculoException ex) {
-                                // Mostrar mensaje de error si el ID no existe
-                                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                             }
 
                         } catch (NumberFormatException ex) {
