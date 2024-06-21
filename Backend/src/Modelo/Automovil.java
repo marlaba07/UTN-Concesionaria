@@ -1,5 +1,5 @@
 package Modelo;
-import Model.Enums.TipoAutomovil;
+import Modelo.Enums.TipoAutomovil;
 
 public class Automovil extends Vehiculo {
     private int cantPuertas;

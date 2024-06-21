@@ -5,10 +5,11 @@ import Modelo.Vehiculo;
 import Servicio.ConcesionariaServicio;
 import Utilidades.JSON;
 
+import java.time.Year;
 import java.util.*;
 
 public class ConcesionariaServicioImpl implements ConcesionariaServicio {
-
+    private static final int ANIO_MINIMO = 2000;
     private static final String JSON_FILE_VEHICULOS = "Backend/Archivos/vehiculos.json";
     private HashMap<Integer, Vehiculo> listaVehiculo;
 
@@ -30,8 +31,11 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
 
     public Vehiculo agregarVehiculo(Vehiculo v) throws VehiculoException {
         try {
+            // Obtener el año actual
+            int anioActual = Year.now().getValue();
+
             // Ejemplo de nuestra regla de negocio, solo queremos vehículos "modernos"
-            if (v.getAnio() >= 2000) {
+            if (v.getAnio() >= ANIO_MINIMO && v.getAnio() <= anioActual) {
                 // Obtener la lista actual de vehículos desde el JSON
                 Map<Integer, Vehiculo> listaVehiculo = obtenerTodosVehiculos();
 
@@ -50,7 +54,7 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
 
                 return v;
             } else {
-                throw new VehiculoException("Error: el vehículo es antiguo, la concesionaria solo puede tener modelos mayores al año 2000");
+                throw new VehiculoException("Error: El año ingresado es inválido. Debe ser mayor a " + ANIO_MINIMO + " y menor al año actual! ");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -88,8 +92,10 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
             Vehiculo vehiculo = listaVehiculo.get(id);
 
             // Sí se encuentra lo retorno, sino lanzo excepcion
-            if(vehiculo != null) return vehiculo;
-            else throw new VehiculoException("Vehículo no encontrado con el ID: " + id);
+            if(vehiculo != null)
+                return vehiculo;
+            else
+                throw new VehiculoException("Vehículo no encontrado con el ID: " + id);
 
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -127,6 +133,8 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
     @Override
     public HashMap<Integer, Vehiculo> actualizarVehiculo(int id, Vehiculo v) throws VehiculoException {
         try {
+            int anioActual = Year.now().getValue();
+
             // Si el HashMap está vacío, cargar todos los vehículos desde el JSON
             if (listaVehiculo.isEmpty())
                 listaVehiculo = obtenerTodosVehiculos();
@@ -139,12 +147,17 @@ public class ConcesionariaServicioImpl implements ConcesionariaServicio {
                 Vehiculo vehiculo = entry.getValue();
 
                 if (vehiculoId == id) {
+
+                    if (v.getAnio() < ANIO_MINIMO && v.getAnio() > anioActual)
+                        throw new VehiculoException("Error: El año ingresado es inválido. Debe ser mayor a " + ANIO_MINIMO + " y menor al año actual! ");
+
                     vehiculo.setMarca(v.getMarca());
                     vehiculo.setModelo(v.getModelo());
                     vehiculo.setColor(v.getColor());
-                    vehiculo.setAnio(v.getAnio());
                     vehiculo.setPrecio(v.getPrecio());
                     vehiculo.setStock(v.getStock());
+                    vehiculo.setAnio(v.getAnio());
+
                     encontrado = true;
                     break;
                 }

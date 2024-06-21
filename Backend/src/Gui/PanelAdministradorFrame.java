@@ -118,7 +118,6 @@ public class PanelAdministradorFrame extends JFrame {
                 panelCampos.add(labelTipo);
                 panelCampos.add(comboBoxTipo);
 
-                // Hacer los campos de texto más pequeños
                 Dimension fieldDimension = new Dimension(150, 24);
                 textFieldMarca.setPreferredSize(fieldDimension);
                 textFieldModelo.setPreferredSize(fieldDimension);
@@ -203,15 +202,35 @@ public class PanelAdministradorFrame extends JFrame {
 
                         try {
                             // Validar que los campos numéricos sean válidos
-                            int anio = Integer.parseInt(anioStr);
+                            int anio      = Integer.parseInt(anioStr);
                             double precio = Double.parseDouble(precioStr);
-                            int stock = Integer.parseInt(stockStr);
+                            int stock     = Integer.parseInt(stockStr);
+
+                            // Validamos que el precio y el stock no sean 0 o valores negativos
+                            if (precio <= 0 || stock <= 0) {
+                                JOptionPane.showMessageDialog(dialog, "Error, los campos numericos deben ser mayores que 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
 
                             if ("automovil".equals(tipo)) {
                                 int cantPuertas = Integer.parseInt(cantPuertasCilindradaStr);
+
+                                // Validamos que la cantidad de puertas no sea 0 o un valor negativo
+                                if (cantPuertas <= 0) {
+                                    JOptionPane.showMessageDialog(dialog, "Error, la cantidad de puertas debe ser mayor que 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+
                                 concesionariaServicio.agregarVehiculo(new Automovil(0, marca, modelo, color, anio, precio, stock, tipo, cantPuertas, null));
                             } else if ("moto".equals(tipo)) {
                                 double cilindrada = Double.parseDouble(cantPuertasCilindradaStr);
+
+                                // Validamos que la cilindrada no sea 0 o un valor negativo
+                                if (cilindrada <= 0) {
+                                    JOptionPane.showMessageDialog(dialog, "Error, la cilindrada debe ser mayor que 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+
                                 concesionariaServicio.agregarVehiculo(new Moto(0, marca, modelo, color, anio, precio, stock, cilindrada));
                             }
 
@@ -353,13 +372,35 @@ public class PanelAdministradorFrame extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try {
-                            int id        = Integer.parseInt(textFieldID.getText());
-                            String marca  = textFieldMarca.getText();
-                            String modelo = textFieldModelo.getText();
-                            String color  = textFieldColor.getText();
-                            int anio      = Integer.parseInt(textFieldAnio.getText());
-                            double precio = Double.parseDouble(textFieldPrecio.getText());
-                            int stock     = Integer.parseInt(textFieldStock.getText());
+                            int id           = Integer.parseInt(textFieldID.getText());
+                            String marca     = textFieldMarca.getText();
+                            String modelo    = textFieldModelo.getText();
+                            String color     = textFieldColor.getText();
+                            String anioStr   = textFieldAnio.getText();
+                            String precioStr = textFieldPrecio.getText();
+                            String stockStr  = textFieldStock.getText();
+
+                            // Validar que todos los campos estén completos
+                            if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || anioStr.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
+                                JOptionPane.showMessageDialog(dialog, "Error, complete todos los campos antes de modificar el vehículo.", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            // Validar que los campos de texto no contengan números
+                            if (!marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") || !color.matches("[a-zA-Z\\s]+")) {
+                                JOptionPane.showMessageDialog(dialog, "Error, ingrese el formato correcto para cada caso. (Texto)", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            // Validar que los campos numéricos sean válidos y mayores que 0
+                            int anio      = Integer.parseInt(anioStr);
+                            double precio = Double.parseDouble(precioStr);
+                            int stock     = Integer.parseInt(stockStr);
+
+                            if (precio <= 0 || stock <= 0) {
+                                JOptionPane.showMessageDialog(dialog, "Error, los valores de año, precio y stock deben ser mayores a 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
 
                             // Actualizar el vehículo
                             Vehiculo vehiculo = concesionariaServicio.obtenerVehiculoPorID(id);
