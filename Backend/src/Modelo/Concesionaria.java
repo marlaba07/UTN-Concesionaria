@@ -1,8 +1,5 @@
 package Modelo;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Concesionaria {
@@ -14,9 +11,6 @@ public class Concesionaria {
     public Concesionaria(){}
 
     public Concesionaria(String nombre, String direccion, Integer telefono) {
-        this.nombre    = nombre;
-        this.direccion = direccion;
-        this.telefono  = telefono;
         this.vehiculos = new HashMap<>();
     }
 

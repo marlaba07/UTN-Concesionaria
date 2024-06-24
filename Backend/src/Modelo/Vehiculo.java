@@ -99,4 +99,18 @@ public abstract class Vehiculo {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    @Override
+    public String toString() {
+        return "Vehiculo{" +
+                "id=" + id +
+                ", marca='" + marca + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", color='" + color + '\'' +
+                ", anio=" + anio +
+                ", precio=" + precio +
+                ", stock=" + stock +
+                ", tipo='" + tipo + '\'' +
+                '}';
+    }
 }

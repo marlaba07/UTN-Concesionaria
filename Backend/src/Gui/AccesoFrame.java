@@ -67,7 +67,6 @@ public class AccesoFrame extends JFrame {
 
         setVisible(true);
     }
-
     private void iniciarSesion(JTextField userText, JPasswordField passwordText) {
         String usuario    = userText.getText();
         String contrasena = new String(passwordText.getPassword());

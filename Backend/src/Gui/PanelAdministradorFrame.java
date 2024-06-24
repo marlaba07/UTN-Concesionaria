@@ -28,24 +28,24 @@ public class PanelAdministradorFrame extends JFrame {
         panel.setLayout(null);
 
         // Botones
-        JButton btnAgregar = new JButton("Agregar Vehículo");
-        btnAgregar.setBounds(30, 30, 150, 30);
+        JButton btnAgregar = new JButton("Agregar");
+        btnAgregar.setBounds(10, 30, 100, 30);
         panel.add(btnAgregar);
 
-        JButton btnModificar = new JButton("Modificar Vehículo");
-        btnModificar.setBounds(200, 30, 150, 30);
+        JButton btnModificar = new JButton("Modificar");
+        btnModificar.setBounds(120, 30, 100, 30);
         panel.add(btnModificar);
 
-        JButton btnEliminar = new JButton("Eliminar Vehículo");
-        btnEliminar.setBounds(370, 30, 150, 30);
+        JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar.setBounds(230, 30, 100, 30);
         panel.add(btnEliminar);
 
-        JButton btnObtenerTodos = new JButton("Obtener todos los vehículos");
-        btnObtenerTodos.setBounds(30, 80, 200, 30);
+        JButton btnObtenerTodos = new JButton("Obtener todos");
+        btnObtenerTodos.setBounds(340, 30, 120, 30);
         panel.add(btnObtenerTodos);
 
-        JButton btnObtenerPorId = new JButton("Buscar vehículo");
-        btnObtenerPorId.setBounds(250, 80, 200, 30);
+        JButton btnObtenerPorId = new JButton("Buscar");
+        btnObtenerPorId.setBounds(470, 30, 100, 30);
         panel.add(btnObtenerPorId);
 
         // Tabla para mostrar la lista de vehículos
@@ -64,7 +64,7 @@ public class PanelAdministradorFrame extends JFrame {
         table.setModel(model);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(30, 130, 550, 200);
+        scrollPane.setBounds(10, 90, 560, 230);
         panel.add(scrollPane);
 
         // Inicializar el servicio de la concesionaria
@@ -118,7 +118,6 @@ public class PanelAdministradorFrame extends JFrame {
                 panelCampos.add(labelTipo);
                 panelCampos.add(comboBoxTipo);
 
-                // Hacer los campos de texto más pequeños
                 Dimension fieldDimension = new Dimension(150, 24);
                 textFieldMarca.setPreferredSize(fieldDimension);
                 textFieldModelo.setPreferredSize(fieldDimension);
@@ -196,22 +195,42 @@ public class PanelAdministradorFrame extends JFrame {
                         }
 
                         // Validar que los campos de texto no contengan números
-                        if (!marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") || !color.matches("[a-zA-Z\\s]+")) {
+                        if (/* !marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") || */ !color.matches("[a-zA-Z\\s]+")) {
                             JOptionPane.showMessageDialog(dialog, "Error, ingrese el formato correcto para cada caso. (Texto)", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
 
                         try {
                             // Validar que los campos numéricos sean válidos
-                            int anio = Integer.parseInt(anioStr);
+                            int anio      = Integer.parseInt(anioStr);
                             double precio = Double.parseDouble(precioStr);
-                            int stock = Integer.parseInt(stockStr);
+                            int stock     = Integer.parseInt(stockStr);
+
+                            // Validamos que el precio y el stock no sean 0 o valores negativos
+                            if (precio <= 0 || stock <= 0) {
+                                JOptionPane.showMessageDialog(dialog, "Error, los campos numericos deben ser mayores que 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
 
                             if ("automovil".equals(tipo)) {
                                 int cantPuertas = Integer.parseInt(cantPuertasCilindradaStr);
+
+                                // Validamos que la cantidad de puertas no sea 0 o un valor negativo
+                                if (cantPuertas <= 0) {
+                                    JOptionPane.showMessageDialog(dialog, "Error, la cantidad de puertas debe ser mayor que 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+
                                 concesionariaServicio.agregarVehiculo(new Automovil(0, marca, modelo, color, anio, precio, stock, tipo, cantPuertas, null));
                             } else if ("moto".equals(tipo)) {
                                 double cilindrada = Double.parseDouble(cantPuertasCilindradaStr);
+
+                                // Validamos que la cilindrada no sea 0 o un valor negativo
+                                if (cilindrada <= 0) {
+                                    JOptionPane.showMessageDialog(dialog, "Error, la cilindrada debe ser mayor que 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+
                                 concesionariaServicio.agregarVehiculo(new Moto(0, marca, modelo, color, anio, precio, stock, cilindrada));
                             }
 
@@ -353,13 +372,35 @@ public class PanelAdministradorFrame extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try {
-                            int id        = Integer.parseInt(textFieldID.getText());
-                            String marca  = textFieldMarca.getText();
-                            String modelo = textFieldModelo.getText();
-                            String color  = textFieldColor.getText();
-                            int anio      = Integer.parseInt(textFieldAnio.getText());
-                            double precio = Double.parseDouble(textFieldPrecio.getText());
-                            int stock     = Integer.parseInt(textFieldStock.getText());
+                            int id           = Integer.parseInt(textFieldID.getText());
+                            String marca     = textFieldMarca.getText();
+                            String modelo    = textFieldModelo.getText();
+                            String color     = textFieldColor.getText();
+                            String anioStr   = textFieldAnio.getText();
+                            String precioStr = textFieldPrecio.getText();
+                            String stockStr  = textFieldStock.getText();
+
+                            // Validar que todos los campos estén completos
+                            if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || anioStr.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
+                                JOptionPane.showMessageDialog(dialog, "Error, complete todos los campos antes de modificar el vehículo.", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            // Validar que los campos de texto no contengan números
+                            if (/*!marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") ||*/ !color.matches("[a-zA-Z\\s]+")) {
+                                JOptionPane.showMessageDialog(dialog, "Error, ingrese el formato correcto para cada caso. (Texto)", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            // Validar que los campos numéricos sean válidos y mayores que 0
+                            int anio      = Integer.parseInt(anioStr);
+                            double precio = Double.parseDouble(precioStr);
+                            int stock     = Integer.parseInt(stockStr);
+
+                            if (precio <= 0 || stock <= 0) {
+                                JOptionPane.showMessageDialog(dialog, "Error, los valores de año, precio y stock deben ser mayores a 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
 
                             // Actualizar el vehículo
                             Vehiculo vehiculo = concesionariaServicio.obtenerVehiculoPorID(id);
@@ -432,22 +473,33 @@ public class PanelAdministradorFrame extends JFrame {
                         try {
                             int id = Integer.parseInt(idText);
 
-                            try {
-                                // Intentar eliminar el vehículo
-                                concesionariaServicio.eliminarVehiculo(id);
+                            // Modal de confirmación de eliminación
+                            int confirm = JOptionPane.showConfirmDialog(dialog,
+                                    "¿Seguro que desea eliminar este vehículo?",
+                                    "Confirmación de Eliminación",
+                                    JOptionPane.YES_NO_OPTION);
 
-                                // Mostrar mensaje de éxito
-                                JOptionPane.showMessageDialog(dialog, "Vehículo eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                            if (confirm == JOptionPane.YES_OPTION) {
+                                try {
+                                    // Intentar eliminar el vehículo
+                                    concesionariaServicio.eliminarVehiculo(id);
 
-                                // Cerrar el diálogo después de eliminar
+                                    // Mostrar mensaje de éxito
+                                    JOptionPane.showMessageDialog(dialog, "Vehículo eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                                    // Cerrar el diálogo después de eliminar
+                                    dialog.dispose();
+
+                                    // Actualizar la tabla de vehículos
+                                    mostrarVehiculosEnTabla(concesionariaServicio.obtenerTodosVehiculos(), model);
+
+                                } catch (VehiculoException ex) {
+                                    // Mostrar mensaje de error si el ID no existe
+                                    JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            } else {
+                                // Si se elige "No", simplemente cerrar el modal
                                 dialog.dispose();
-
-                                // Actualizar la tabla de vehículos
-                                mostrarVehiculosEnTabla(concesionariaServicio.obtenerTodosVehiculos(), model);
-
-                            } catch (VehiculoException ex) {
-                                // Mostrar mensaje de error si el ID no existe
-                                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                             }
 
                         } catch (NumberFormatException ex) {
