@@ -28,24 +28,24 @@ public class PanelAdministradorFrame extends JFrame {
         panel.setLayout(null);
 
         // Botones
-        JButton btnAgregar = new JButton("Agregar Vehículo");
-        btnAgregar.setBounds(30, 30, 150, 30);
+        JButton btnAgregar = new JButton("Agregar");
+        btnAgregar.setBounds(10, 30, 100, 30);
         panel.add(btnAgregar);
 
-        JButton btnModificar = new JButton("Modificar Vehículo");
-        btnModificar.setBounds(200, 30, 150, 30);
+        JButton btnModificar = new JButton("Modificar");
+        btnModificar.setBounds(120, 30, 100, 30);
         panel.add(btnModificar);
 
-        JButton btnEliminar = new JButton("Eliminar Vehículo");
-        btnEliminar.setBounds(370, 30, 150, 30);
+        JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar.setBounds(230, 30, 100, 30);
         panel.add(btnEliminar);
 
-        JButton btnObtenerTodos = new JButton("Obtener todos los vehículos");
-        btnObtenerTodos.setBounds(30, 80, 200, 30);
+        JButton btnObtenerTodos = new JButton("Obtener todos");
+        btnObtenerTodos.setBounds(340, 30, 120, 30);
         panel.add(btnObtenerTodos);
 
-        JButton btnObtenerPorId = new JButton("Buscar vehículo");
-        btnObtenerPorId.setBounds(250, 80, 200, 30);
+        JButton btnObtenerPorId = new JButton("Buscar");
+        btnObtenerPorId.setBounds(470, 30, 100, 30);
         panel.add(btnObtenerPorId);
 
         // Tabla para mostrar la lista de vehículos
@@ -64,7 +64,7 @@ public class PanelAdministradorFrame extends JFrame {
         table.setModel(model);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(30, 130, 550, 200);
+        scrollPane.setBounds(10, 90, 560, 230);
         panel.add(scrollPane);
 
         // Inicializar el servicio de la concesionaria
