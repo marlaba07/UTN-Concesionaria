@@ -16,10 +16,13 @@ public class AccesoFrame extends JFrame {
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
+        setResizable(false);
+        ImageIcon iconoApp = new ImageIcon("Backend/resourses/images/iconoApp.png");
+        setIconImage(iconoApp.getImage());
         JPanel panel = new JPanel();
         getContentPane().add(panel);
         panel.setLayout(null);
+
 
         JLabel userLabel = new JLabel("Usuario:");
         userLabel.setBounds(30, 30, 80, 25);

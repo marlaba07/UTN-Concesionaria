@@ -22,6 +22,9 @@ public class PanelAdministradorFrame extends JFrame {
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
+        ImageIcon iconoApp = new ImageIcon("Backend/resourses/images/iconoApp.png");
+        setIconImage(iconoApp.getImage());
 
         JPanel panel = new JPanel();
         getContentPane().add(panel);
