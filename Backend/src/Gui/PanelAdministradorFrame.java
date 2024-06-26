@@ -2,6 +2,7 @@ package Gui;
 
 import Excepcion.VehiculoException;
 import Modelo.Automovil;
+import Modelo.Enums.TipoAutomovil;
 import Modelo.Moto;
 import Modelo.Vehiculo;
 import Servicio.Impl.ConcesionariaServicioImpl;
@@ -23,7 +24,7 @@ public class PanelAdministradorFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        ImageIcon iconoApp = new ImageIcon("Backend/resourses/images/iconoApp.png");
+        ImageIcon iconoApp = new ImageIcon("Backend/Recursos/Imagenes/iconoApp.png");
         setIconImage(iconoApp.getImage());
 
         JPanel panel = new JPanel();
@@ -34,7 +35,7 @@ public class PanelAdministradorFrame extends JFrame {
         int altoBoton=50;
         int anchoBoton=50;
         JButton btnAgregar = new JButton();
-        ImageIcon iconoOriginalAgregar = new ImageIcon("Backend/resourses/images/crear.png");
+        ImageIcon iconoOriginalAgregar = new ImageIcon("Backend/Recursos/Imagenes/crear.png");
         Image imagenOriginalAgregar = iconoOriginalAgregar.getImage();
         Image imagenRedimensionadaAgregar = imagenOriginalAgregar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
         btnAgregar.setBounds(75, 25, anchoBoton, altoBoton);
@@ -46,7 +47,7 @@ public class PanelAdministradorFrame extends JFrame {
         panel.add(btnAgregar);
 
         JButton btnModificar = new JButton();
-        ImageIcon iconoOriginalModificar = new ImageIcon("Backend/resourses/images/modificar.png");
+        ImageIcon iconoOriginalModificar = new ImageIcon("Backend/Recursos/Imagenes/modificar.png");
         Image imagenOriginalModificar = iconoOriginalModificar.getImage();
         Image imagenRedimensionadaModificar = imagenOriginalModificar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
         btnModificar.setBounds(175, 25, anchoBoton,altoBoton);
@@ -58,7 +59,7 @@ public class PanelAdministradorFrame extends JFrame {
         panel.add(btnModificar);
 
         JButton btnEliminar = new JButton();
-        ImageIcon iconoOriginalEliminar = new ImageIcon("Backend/resourses/images/eliminar.png");
+        ImageIcon iconoOriginalEliminar = new ImageIcon("Backend/Recursos/Imagenes/eliminar.png");
         Image imagenOriginalEliminar = iconoOriginalEliminar.getImage();
         Image imagenRedimensionadaEliminar = imagenOriginalEliminar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
         btnEliminar.setBounds(275, 25, anchoBoton, altoBoton);
@@ -70,7 +71,7 @@ public class PanelAdministradorFrame extends JFrame {
         panel.add(btnEliminar);
 
         JButton btnObtenerTodos = new JButton();
-        ImageIcon iconoOriginalRefrescar = new ImageIcon("Backend/resourses/images/refrescar.png");
+        ImageIcon iconoOriginalRefrescar = new ImageIcon("Backend/Recursos/Imagenes/refrescar.png");
         Image imagenOriginalRefrescar = iconoOriginalRefrescar.getImage();
         Image imagenRedimensionadaRefrescar = imagenOriginalRefrescar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
         btnObtenerTodos.setBounds(375, 25, anchoBoton, altoBoton);
@@ -82,7 +83,7 @@ public class PanelAdministradorFrame extends JFrame {
         panel.add(btnObtenerTodos);
 
         JButton btnObtenerPorId = new JButton();
-        ImageIcon iconoOriginalBuscar = new ImageIcon("Backend/resourses/images/buscar.png");
+        ImageIcon iconoOriginalBuscar = new ImageIcon("Backend/Recursos/Imagenes/buscar.png");
         Image imagenOriginalBuscar = iconoOriginalBuscar.getImage();
         Image imagenRedimensionadaBuscar = imagenOriginalBuscar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
         btnObtenerPorId.setBounds(475, 25, anchoBoton, altoBoton);
@@ -126,7 +127,7 @@ public class PanelAdministradorFrame extends JFrame {
                 dialog.setLayout(new BorderLayout(10, 10)); // Espacios entre componentes y bordes
 
                 JPanel panelCampos = new JPanel();
-                panelCampos.setLayout(new GridLayout(8, 2, 5, 5)); // Ajustar filas, columnas, espacios horizontal y vertical
+                panelCampos.setLayout(new GridLayout(9, 2, 5, 5)); // Ajustar filas, columnas, espacios horizontal y vertical
 
                 JLabel labelMarca = new JLabel("Marca:");
                 JTextField textFieldMarca = new JTextField();
@@ -163,6 +164,7 @@ public class PanelAdministradorFrame extends JFrame {
                 panelCampos.add(labelTipo);
                 panelCampos.add(comboBoxTipo);
 
+
                 Dimension fieldDimension = new Dimension(150, 24);
                 textFieldMarca.setPreferredSize(fieldDimension);
                 textFieldModelo.setPreferredSize(fieldDimension);
@@ -171,16 +173,29 @@ public class PanelAdministradorFrame extends JFrame {
                 textFieldPrecio.setPreferredSize(fieldDimension);
                 textFieldStock.setPreferredSize(fieldDimension);
 
-                // Panel para el campo adicional
+
+
+                // Panel para los dos campos adicionales
                 JLabel labelCantPuertasCilindrada = new JLabel();
                 JTextField textFieldCantPuertasCilindrada = new JTextField();
                 textFieldCantPuertasCilindrada.setPreferredSize(fieldDimension);
 
-                // Mantener el campo adicional oculto inicialmente
-                labelCantPuertasCilindrada.setVisible(false);
-                textFieldCantPuertasCilindrada.setVisible(false);
                 panelCampos.add(labelCantPuertasCilindrada);
                 panelCampos.add(textFieldCantPuertasCilindrada);
+
+                JLabel labelTipoAutomovil = new JLabel("Tipo de Automovil:");
+                JComboBox<TipoAutomovil> comboBoxTipoAutomovil = new JComboBox<>(TipoAutomovil.values());
+                panelCampos.add(labelTipoAutomovil);
+                panelCampos.add(comboBoxTipoAutomovil);
+
+
+
+                // Mantener los campos adicionales ocultos inicialmente
+                labelCantPuertasCilindrada.setVisible(false);
+                textFieldCantPuertasCilindrada.setVisible(false);
+                comboBoxTipoAutomovil.setVisible(false);
+                labelTipoAutomovil.setVisible(false);
+
 
                 // Agregar el panel de campos al diálogo con márgenes
                 JPanel panelMargen = new JPanel(new BorderLayout());
@@ -198,13 +213,19 @@ public class PanelAdministradorFrame extends JFrame {
                             labelCantPuertasCilindrada.setText("Cantidad de Puertas:");
                             textFieldCantPuertasCilindrada.setVisible(true);
                             labelCantPuertasCilindrada.setVisible(true);
+                            comboBoxTipoAutomovil.setVisible(true);
+                            labelTipoAutomovil.setVisible(true);
                         } else if ("moto".equals(seleccion)) {
                             labelCantPuertasCilindrada.setText("Cilindrada:");
                             textFieldCantPuertasCilindrada.setVisible(true);
                             labelCantPuertasCilindrada.setVisible(true);
+                            comboBoxTipoAutomovil.setVisible(false);
+                            labelTipoAutomovil.setVisible(false);
                         } else {
                             labelCantPuertasCilindrada.setVisible(false);
                             textFieldCantPuertasCilindrada.setVisible(false);
+                            comboBoxTipoAutomovil.setVisible(false);
+                            labelTipoAutomovil.setVisible(false);
                         }
 
                         dialog.revalidate();
@@ -232,9 +253,10 @@ public class PanelAdministradorFrame extends JFrame {
                         String stockStr                 = textFieldStock.getText();
                         String tipo                     = (String) comboBoxTipo.getSelectedItem();
                         String cantPuertasCilindradaStr = textFieldCantPuertasCilindrada.getText();
+                        TipoAutomovil tipoAutomovil = (TipoAutomovil) comboBoxTipoAutomovil.getSelectedItem();
 
                         // Validar que todos los campos estén completos
-                        if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || anioStr.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || Objects.requireNonNull(tipo).isEmpty() || (labelCantPuertasCilindrada.isVisible() && cantPuertasCilindradaStr.isEmpty())) {
+                        if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || anioStr.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || Objects.requireNonNull(tipo).isEmpty() || (labelCantPuertasCilindrada.isVisible() && cantPuertasCilindradaStr.isEmpty() )) {
                             JOptionPane.showMessageDialog(dialog, "Error, complete todos los campos antes de agregar el vehículo.", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
@@ -266,7 +288,7 @@ public class PanelAdministradorFrame extends JFrame {
                                     return;
                                 }
 
-                                concesionariaServicio.agregarVehiculo(new Automovil(0, marca, modelo, color, anio, precio, stock, tipo, cantPuertas, null));
+                                concesionariaServicio.agregarVehiculo(new Automovil(0, marca, modelo, color, anio, precio, stock, tipo, cantPuertas, tipoAutomovil));
                             } else if ("moto".equals(tipo)) {
                                 double cilindrada = Double.parseDouble(cantPuertasCilindradaStr);
 
@@ -321,7 +343,7 @@ public class PanelAdministradorFrame extends JFrame {
 
                 // Panel para los campos de entrada
                 JPanel panelCampos = new JPanel();
-                panelCampos.setLayout(new GridLayout(8, 2, 5, 5)); // Ajustar filas, columnas, espacios horizontal y vertical
+                panelCampos.setLayout(new GridLayout(9, 2, 5, 5)); // Ajustar filas, columnas, espacios horizontal y vertical
 
                 JLabel labelID = new JLabel("ID del vehículo:");
                 JTextField textFieldID = new JTextField();

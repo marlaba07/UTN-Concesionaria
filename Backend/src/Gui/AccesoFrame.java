@@ -17,7 +17,7 @@ public class AccesoFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        ImageIcon iconoApp = new ImageIcon("Backend/resourses/images/iconoApp.png");
+        ImageIcon iconoApp = new ImageIcon("Backend/Recursos/Imagenes/iconoApp.png");
         setIconImage(iconoApp.getImage());
         JPanel panel = new JPanel();
         getContentPane().add(panel);
