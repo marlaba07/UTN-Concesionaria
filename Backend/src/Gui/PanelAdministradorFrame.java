@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -31,68 +33,23 @@ public class PanelAdministradorFrame extends JFrame {
         getContentPane().add(panel);
         panel.setLayout(null);
 
+
+
         // Botones
-        int altoBoton=50;
-        int anchoBoton=50;
-        JButton btnAgregar = new JButton();
-        ImageIcon iconoOriginalAgregar = new ImageIcon("Backend/Recursos/Imagenes/crear.png");
-        Image imagenOriginalAgregar = iconoOriginalAgregar.getImage();
-        Image imagenRedimensionadaAgregar = imagenOriginalAgregar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
-        btnAgregar.setBounds(75, 25, anchoBoton, altoBoton);
-        ImageIcon iconoRedimensionadoAgregar = new ImageIcon(imagenRedimensionadaAgregar);
-        btnAgregar.setIcon(iconoRedimensionadoAgregar);
-        btnAgregar.setBorderPainted(false);
-        btnAgregar.setContentAreaFilled(false);
-        btnAgregar.setToolTipText("Agregar");
-        panel.add(btnAgregar);
+        int altoBoton = 40;
+        int anchoBoton = 40;
+        JButton btnAgregar = crearBoton("Backend/Recursos/Imagenes/crear.png", 75, 25, anchoBoton, altoBoton, "Agregar", panel);
+        JButton btnModificar = crearBoton("Backend/Recursos/Imagenes/modificar.png", 175, 25, anchoBoton, altoBoton, "Modificar", panel);
+        JButton btnEliminar = crearBoton("Backend/Recursos/Imagenes/eliminar.png", 275, 25, anchoBoton, altoBoton, "Eliminar", panel);
+        JButton btnObtenerTodos = crearBoton("Backend/Recursos/Imagenes/refrescar.png", 375, 25, anchoBoton, altoBoton, "Actualizar inventario", panel);
+        JButton btnObtenerPorId = crearBoton("Backend/Recursos/Imagenes/buscar.png", 475, 25, anchoBoton, altoBoton, "Buscar", panel);
 
-        JButton btnModificar = new JButton();
-        ImageIcon iconoOriginalModificar = new ImageIcon("Backend/Recursos/Imagenes/modificar.png");
-        Image imagenOriginalModificar = iconoOriginalModificar.getImage();
-        Image imagenRedimensionadaModificar = imagenOriginalModificar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
-        btnModificar.setBounds(175, 25, anchoBoton,altoBoton);
-        ImageIcon iconoRedimensionadoModificar = new ImageIcon(imagenRedimensionadaModificar);
-        btnModificar.setIcon(iconoRedimensionadoModificar);
-        btnModificar.setBorderPainted(false);
-        btnModificar.setContentAreaFilled(false);
-        btnModificar.setToolTipText("Modificar");
-        panel.add(btnModificar);
-
-        JButton btnEliminar = new JButton();
-        ImageIcon iconoOriginalEliminar = new ImageIcon("Backend/Recursos/Imagenes/eliminar.png");
-        Image imagenOriginalEliminar = iconoOriginalEliminar.getImage();
-        Image imagenRedimensionadaEliminar = imagenOriginalEliminar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
-        btnEliminar.setBounds(275, 25, anchoBoton, altoBoton);
-        ImageIcon iconoRedimensionadoEliminar = new ImageIcon(imagenRedimensionadaEliminar);
-        btnEliminar.setIcon(iconoRedimensionadoEliminar);
-        btnEliminar.setBorderPainted(false);
-        btnEliminar.setContentAreaFilled(false);
-        btnEliminar.setToolTipText("Eliminar");
-        panel.add(btnEliminar);
-
-        JButton btnObtenerTodos = new JButton();
-        ImageIcon iconoOriginalRefrescar = new ImageIcon("Backend/Recursos/Imagenes/refrescar.png");
-        Image imagenOriginalRefrescar = iconoOriginalRefrescar.getImage();
-        Image imagenRedimensionadaRefrescar = imagenOriginalRefrescar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
-        btnObtenerTodos.setBounds(375, 25, anchoBoton, altoBoton);
-        ImageIcon iconoRedimensionadoRefrescar = new ImageIcon(imagenRedimensionadaRefrescar);
-        btnObtenerTodos.setIcon(iconoRedimensionadoRefrescar);
-        btnObtenerTodos.setBorderPainted(false);
-        btnObtenerTodos.setContentAreaFilled(false);
-        btnObtenerTodos.setToolTipText("Actualizar inventario");
-        panel.add(btnObtenerTodos);
-
-        JButton btnObtenerPorId = new JButton();
-        ImageIcon iconoOriginalBuscar = new ImageIcon("Backend/Recursos/Imagenes/buscar.png");
-        Image imagenOriginalBuscar = iconoOriginalBuscar.getImage();
-        Image imagenRedimensionadaBuscar = imagenOriginalBuscar.getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
-        btnObtenerPorId.setBounds(475, 25, anchoBoton, altoBoton);
-        ImageIcon iconoRedimensionadoBuscar = new ImageIcon(imagenRedimensionadaBuscar);
-        btnObtenerPorId.setIcon(iconoRedimensionadoBuscar);
-        btnObtenerPorId.setBorderPainted(false);
-        btnObtenerPorId.setContentAreaFilled(false);
-        btnObtenerPorId.setToolTipText("Buscar");
-        panel.add(btnObtenerPorId);
+        // Aplicar efecto hover a los botones
+        aplicarEfectoMouse(btnAgregar);
+        aplicarEfectoMouse(btnModificar);
+        aplicarEfectoMouse(btnEliminar);
+        aplicarEfectoMouse(btnObtenerTodos);
+        aplicarEfectoMouse(btnObtenerPorId);
 
         // Tabla para mostrar la lista de vehículos
         JTable table = new JTable();
@@ -172,7 +129,6 @@ public class PanelAdministradorFrame extends JFrame {
                 textFieldAnio.setPreferredSize(fieldDimension);
                 textFieldPrecio.setPreferredSize(fieldDimension);
                 textFieldStock.setPreferredSize(fieldDimension);
-
 
 
                 // Panel para los dos campos adicionales
@@ -650,6 +606,35 @@ public class PanelAdministradorFrame extends JFrame {
         });
 
         setVisible(true);
+    }
+    private JButton crearBoton(String rutaImagen, int x, int y, int ancho, int alto, String tooltip, JPanel panel) {
+        JButton boton = new JButton();
+        ImageIcon iconoOriginal = new ImageIcon(rutaImagen);
+        Image imagenOriginal = iconoOriginal.getImage();
+        Image imagenRedimensionada = imagenOriginal.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        ImageIcon iconoRedimensionado = new ImageIcon(imagenRedimensionada);
+        boton.setIcon(iconoRedimensionado);
+        boton.setBounds(x, y, ancho, alto);
+        boton.setBorderPainted(false);
+        boton.setContentAreaFilled(false);
+        boton.setToolTipText(tooltip);
+        panel.add(boton);
+        return boton;
+    }
+
+    // Método para aplicar efecto hover a un botón
+    private void aplicarEfectoMouse(JButton button) {
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
     }
 
     // Método para mostrar los vehículos en la tabla
