@@ -33,7 +33,7 @@
     "stock": 3,
     "tipo": "automovil",
     "cantPuertas": 4,
-    "tipoAutomovil": "PICKUP"
+    "tipoAutomovil": "ESTANDAR"
   },
   {
     "id": 4,
