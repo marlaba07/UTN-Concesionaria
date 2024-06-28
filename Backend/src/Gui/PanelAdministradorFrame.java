@@ -21,6 +21,7 @@ public class PanelAdministradorFrame extends JFrame {
     private final ConcesionariaServicioImpl concesionariaServicio;
 
     public PanelAdministradorFrame() {
+        // ----------------- CABECERA DEL PANEL ADM
         setTitle("Panel de Administrador");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,14 +34,13 @@ public class PanelAdministradorFrame extends JFrame {
         getContentPane().add(panel);
         panel.setLayout(null);
 
-
-
         // Botones
         int altoBoton = 40;
         int anchoBoton = 40;
-        JButton btnAgregar = crearBoton("Backend/Recursos/Imagenes/crear.png", 75, 25, anchoBoton, altoBoton, "Agregar", panel);
-        JButton btnModificar = crearBoton("Backend/Recursos/Imagenes/modificar.png", 175, 25, anchoBoton, altoBoton, "Modificar", panel);
-        JButton btnEliminar = crearBoton("Backend/Recursos/Imagenes/eliminar.png", 275, 25, anchoBoton, altoBoton, "Eliminar", panel);
+
+        JButton btnAgregar      = crearBoton("Backend/Recursos/Imagenes/crear.png", 75, 25, anchoBoton, altoBoton, "Agregar", panel);
+        JButton btnModificar    = crearBoton("Backend/Recursos/Imagenes/modificar.png", 175, 25, anchoBoton, altoBoton, "Modificar", panel);
+        JButton btnEliminar     = crearBoton("Backend/Recursos/Imagenes/eliminar.png", 275, 25, anchoBoton, altoBoton, "Eliminar", panel);
         JButton btnObtenerTodos = crearBoton("Backend/Recursos/Imagenes/refrescar.png", 375, 25, anchoBoton, altoBoton, "Actualizar inventario", panel);
         JButton btnObtenerPorId = crearBoton("Backend/Recursos/Imagenes/buscar.png", 475, 25, anchoBoton, altoBoton, "Buscar", panel);
 
@@ -79,12 +79,13 @@ public class PanelAdministradorFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Crear un nuevo diálogo para ingresar los datos del vehículo
                 JDialog dialog = new JDialog(PanelAdministradorFrame.this, "Agregar Vehículo", true);
-                dialog.setSize(400, 350); // Ajustar tamaño para hacerlo más pequeño
+
+                dialog.setSize(400, 350);
                 dialog.setLocationRelativeTo(PanelAdministradorFrame.this);
-                dialog.setLayout(new BorderLayout(10, 10)); // Espacios entre componentes y bordes
+                dialog.setLayout(new BorderLayout(10, 10));
 
                 JPanel panelCampos = new JPanel();
-                panelCampos.setLayout(new GridLayout(9, 2, 5, 5)); // Ajustar filas, columnas, espacios horizontal y vertical
+                panelCampos.setLayout(new GridLayout(9, 2, 5, 5));
 
                 JLabel labelMarca = new JLabel("Marca:");
                 JTextField textFieldMarca = new JTextField();
@@ -121,7 +122,6 @@ public class PanelAdministradorFrame extends JFrame {
                 panelCampos.add(labelTipo);
                 panelCampos.add(comboBoxTipo);
 
-
                 Dimension fieldDimension = new Dimension(150, 24);
                 textFieldMarca.setPreferredSize(fieldDimension);
                 textFieldModelo.setPreferredSize(fieldDimension);
@@ -129,7 +129,6 @@ public class PanelAdministradorFrame extends JFrame {
                 textFieldAnio.setPreferredSize(fieldDimension);
                 textFieldPrecio.setPreferredSize(fieldDimension);
                 textFieldStock.setPreferredSize(fieldDimension);
-
 
                 // Panel para los dos campos adicionales
                 JLabel labelCantPuertasCilindrada = new JLabel();
@@ -144,14 +143,11 @@ public class PanelAdministradorFrame extends JFrame {
                 panelCampos.add(labelTipoAutomovil);
                 panelCampos.add(comboBoxTipoAutomovil);
 
-
-
                 // Mantener los campos adicionales ocultos inicialmente
                 labelCantPuertasCilindrada.setVisible(false);
                 textFieldCantPuertasCilindrada.setVisible(false);
                 comboBoxTipoAutomovil.setVisible(false);
                 labelTipoAutomovil.setVisible(false);
-
 
                 // Agregar el panel de campos al diálogo con márgenes
                 JPanel panelMargen = new JPanel(new BorderLayout());
@@ -159,7 +155,8 @@ public class PanelAdministradorFrame extends JFrame {
                 panelMargen.add(panelCampos, BorderLayout.CENTER);
                 dialog.add(panelMargen, BorderLayout.CENTER);
 
-                // Listener para el combo box de tipo
+                // Usamos este listener para evaluar la opción que elija el usuario...
+                // Sí elije automovil le aparecerán los atributos propios de la clase automovil, de lo contrario, irán las de moto
                 comboBoxTipo.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -189,15 +186,14 @@ public class PanelAdministradorFrame extends JFrame {
                     }
                 });
 
-                // Botón de confirmación
                 JButton btnAgregarConfirmar = new JButton("Agregar");
                 JPanel panelBoton = new JPanel();
-                panelBoton.setLayout(new FlowLayout(FlowLayout.RIGHT)); // Alinear botón a la derecha
+                panelBoton.setLayout(new FlowLayout(FlowLayout.RIGHT));
                 panelBoton.add(btnAgregarConfirmar);
 
-                // Agregar el panel del botón al diálogo
                 dialog.add(panelBoton, BorderLayout.SOUTH);
 
+                // Listener para gestionar el botón de confirmación y las validaciones que se tienen que cumplir para que se genere el agregado del vehiculo.
                 btnAgregarConfirmar.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -209,7 +205,7 @@ public class PanelAdministradorFrame extends JFrame {
                         String stockStr                 = textFieldStock.getText();
                         String tipo                     = (String) comboBoxTipo.getSelectedItem();
                         String cantPuertasCilindradaStr = textFieldCantPuertasCilindrada.getText();
-                        TipoAutomovil tipoAutomovil = (TipoAutomovil) comboBoxTipoAutomovil.getSelectedItem();
+                        TipoAutomovil tipoAutomovil     = (TipoAutomovil) comboBoxTipoAutomovil.getSelectedItem();
 
                         // Validar que todos los campos estén completos
                         if (marca.isEmpty() || modelo.isEmpty() || color.isEmpty() || anioStr.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || Objects.requireNonNull(tipo).isEmpty() || (labelCantPuertasCilindrada.isVisible() && cantPuertasCilindradaStr.isEmpty() )) {
@@ -218,7 +214,7 @@ public class PanelAdministradorFrame extends JFrame {
                         }
 
                         // Validar que los campos de texto no contengan números
-                        if (/* !marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") || */ !color.matches("[a-zA-Z\\s]+")) {
+                        if (!color.matches("[a-zA-Z\\s]+")) {
                             JOptionPane.showMessageDialog(dialog, "Error, ingrese el formato correcto para cada caso. (Texto)", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
@@ -289,8 +285,8 @@ public class PanelAdministradorFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Crear un nuevo diálogo para la modificación de vehículo
                 JDialog dialog = new JDialog(PanelAdministradorFrame.this, "Modificar Vehículo", true);
-                dialog.setSize(400, 350); // Tamaño ajustado para el modal (mismo tamaño que el de agregar)
-                dialog.setLocationRelativeTo(null); // Centrar el modal en la pantalla
+                dialog.setSize(400, 350);
+                dialog.setLocationRelativeTo(null);
                 dialog.setLayout(new BorderLayout());
 
                 // Panel principal del diálogo
@@ -299,8 +295,9 @@ public class PanelAdministradorFrame extends JFrame {
 
                 // Panel para los campos de entrada
                 JPanel panelCampos = new JPanel();
-                panelCampos.setLayout(new GridLayout(9, 2, 5, 5)); // Ajustar filas, columnas, espacios horizontal y vertical
+                panelCampos.setLayout(new GridLayout(9, 2, 5, 5));
 
+                // Primero el usuario deberá ingresar un ID válido de vehículo, si corrobora con un ID inválido, no lo dejará modificar porque logicamente el vehiculo no existe.
                 JLabel labelID = new JLabel("ID del vehículo:");
                 JTextField textFieldID = new JTextField();
                 JButton btnCorroborar = new JButton("Corroborar");
@@ -311,7 +308,7 @@ public class PanelAdministradorFrame extends JFrame {
 
                 panelCampos.add(labelID);
                 panelCampos.add(textFieldID);
-                panelCampos.add(new JLabel()); // Espacio en blanco
+                panelCampos.add(new JLabel());
                 panelCampos.add(btnCorroborar);
 
                 JLabel labelMarca = new JLabel("Marca:");
@@ -410,7 +407,7 @@ public class PanelAdministradorFrame extends JFrame {
                             }
 
                             // Validar que los campos de texto no contengan números
-                            if (/*!marca.matches("[a-zA-Z\\s]+") || !modelo.matches("[a-zA-Z\\s]+") ||*/ !color.matches("[a-zA-Z\\s]+")) {
+                            if (!color.matches("[a-zA-Z\\s]+")) {
                                 JOptionPane.showMessageDialog(dialog, "Error, ingrese el formato correcto para cada caso. (Texto)", "Error", JOptionPane.ERROR_MESSAGE);
                                 return;
                             }
@@ -442,6 +439,9 @@ public class PanelAdministradorFrame extends JFrame {
 
                             // Cerrar el diálogo después de modificar
                             dialog.dispose();
+
+                            // Actualizar la tabla de vehículos
+                            mostrarVehiculosEnTabla(concesionariaServicio.obtenerTodosVehiculos(), model);
 
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(dialog, "Ingrese valores numéricos válidos para año, precio y stock.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -502,9 +502,10 @@ public class PanelAdministradorFrame extends JFrame {
                                     "Confirmación de Eliminación",
                                     JOptionPane.YES_NO_OPTION);
 
+                            // Sí elije la opción de que está seguro eliminar entra
                             if (confirm == JOptionPane.YES_OPTION) {
                                 try {
-                                    // Intentar eliminar el vehículo
+                                    // Llamamos al servicio que elimina el vehículo
                                     concesionariaServicio.eliminarVehiculo(id);
 
                                     // Mostrar mensaje de éxito
@@ -608,17 +609,19 @@ public class PanelAdministradorFrame extends JFrame {
         setVisible(true);
     }
     private JButton crearBoton(String rutaImagen, int x, int y, int ancho, int alto, String tooltip, JPanel panel) {
-        JButton boton = new JButton();
-        ImageIcon iconoOriginal = new ImageIcon(rutaImagen);
-        Image imagenOriginal = iconoOriginal.getImage();
-        Image imagenRedimensionada = imagenOriginal.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        JButton boton                 = new JButton();
+        ImageIcon iconoOriginal       = new ImageIcon(rutaImagen);
+        Image imagenOriginal          = iconoOriginal.getImage();
+        Image imagenRedimensionada    = imagenOriginal.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
         ImageIcon iconoRedimensionado = new ImageIcon(imagenRedimensionada);
+
         boton.setIcon(iconoRedimensionado);
         boton.setBounds(x, y, ancho, alto);
         boton.setBorderPainted(false);
         boton.setContentAreaFilled(false);
         boton.setToolTipText(tooltip);
         panel.add(boton);
+
         return boton;
     }
 

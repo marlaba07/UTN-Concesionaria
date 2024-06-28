@@ -12,6 +12,7 @@ import java.io.IOException;
 public class AccesoFrame extends JFrame {
     private static final String JSON_FILE_USUARIOS  = "Backend/Archivos/usuarios.json";
     public AccesoFrame() {
+        // ----------------- CABECERA DEL LOGIN
         setTitle("Login");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,7 +24,7 @@ public class AccesoFrame extends JFrame {
         getContentPane().add(panel);
         panel.setLayout(null);
 
-
+        // ----------------- INPUTS PARA INGRESAR
         JLabel userLabel = new JLabel("Usuario:");
         userLabel.setBounds(30, 30, 80, 25);
         panel.add(userLabel);
@@ -44,6 +45,8 @@ public class AccesoFrame extends JFrame {
         loginButton.setBounds(110, 110, 160, 25);
         panel.add(loginButton);
 
+
+        // ----------------- EVENTOS DE INICIO DE SESIÓN
         // Manejar el evento del botón de inicio de sesión
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -52,7 +55,7 @@ public class AccesoFrame extends JFrame {
             }
         });
 
-        // Manejar el evento cuando se presiona "Enter" en el campo de texto del usuario
+        // "Enter" en el campo de texto del usuario
         userText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -60,7 +63,7 @@ public class AccesoFrame extends JFrame {
             }
         });
 
-        // Manejar el evento cuando se presiona "Enter" en el campo de texto de la contraseña
+        // "Enter" en el campo de texto de la contraseña
         passwordText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,11 +74,10 @@ public class AccesoFrame extends JFrame {
         setVisible(true);
     }
     private void iniciarSesion(JTextField userText, JPasswordField passwordText) {
-        String usuario    = userText.getText();
-        String contrasena = new String(passwordText.getPassword());
-
-        // Leer el archivo JSON y verificar las credenciales
+        String usuario      = userText.getText();
+        String contrasena   = new String(passwordText.getPassword());
         ObjectMapper mapper = new ObjectMapper();
+
         try {
             // Cargar el archivo JSON
             Usuario[] usuarios = mapper.readValue(new File(JSON_FILE_USUARIOS), Usuario[].class);
@@ -89,9 +91,8 @@ public class AccesoFrame extends JFrame {
                 }
             }
 
-            // Proceder según la validación de las credenciales
+            // Si las credenciales son correctas, abrir Panel Administrador y cerrar Login
             if (credencialesValidas) {
-                // Si las credenciales son correctas, abrir Panel Administrador y cerrar Login
                 new PanelAdministradorFrame();
                 dispose();
             } else {
@@ -99,6 +100,7 @@ public class AccesoFrame extends JFrame {
                 userText.setText("");
                 passwordText.setText("");
             }
+
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
